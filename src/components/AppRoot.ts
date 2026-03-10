@@ -5,6 +5,7 @@ import { CONFIG } from "../config";
 import { InstatusApi } from "../api/InstatusApi";
 import { Site } from "../api/Site";
 import "./AppHeader";
+import "./AppFooter";
 
 @customElement("app-root")
 export class AppRoot extends Component {
@@ -40,7 +41,11 @@ export class AppRoot extends Component {
           .links="${this.site.links.header}"
           .home="${true}"
         ></app-header>
-        <main class="flex-1 ring-white/5 ring-inset sm:rounded-2xl sm:bg-neutral-900 sm:ring-1"></main>
+        <main
+          class="flex-1 ring-white/5 ring-inset sm:rounded-2xl sm:bg-neutral-900 sm:ring-1"
+        >
+        </main>
+        <app-footer></app-footer>
       </div>
     `;
   }
