@@ -6,9 +6,7 @@
     "strict": true,
     "noEmit": true,
     "skipLibCheck": true,
-    "outDir": "dist"
-  },
-  "include": [
-    "src"
-  ]
+    "experimentalDecorators": true,
+    "useDefineForClassFields": false
+  }
 }
