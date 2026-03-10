@@ -40,6 +40,7 @@ export class AppRoot extends Component {
           .links="${this.site.links.header}"
           .home="${true}"
         ></app-header>
+        <main class="flex-1 ring-white/5 ring-inset sm:rounded-2xl sm:bg-neutral-900 sm:ring-1"></main>
       </div>
     `;
   }
