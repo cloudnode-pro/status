@@ -50,16 +50,18 @@ export class AppRoot extends Component {
       this.router.navigate(url.pathname);
     });
 
-    this.setupRouter();
-
     this.site = await this.api.getSite();
+
+    this.setupRouter();
   }
 
   private setupRouter() {
     this.router
       .on("/", () => {
         this.home = true;
-        this.page = new HomePage();
+        const page = new HomePage();
+        page.site = this.site!;
+        this.page = page;
       })
       .resolve();
   }
