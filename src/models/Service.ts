@@ -1,14 +1,22 @@
 import { ServiceStatus } from "./ServiceStatus";
+import { Metric } from "./Metric";
 
 export class Service {
   public readonly id: string;
   public readonly name: string;
   public readonly status: ServiceStatus;
+  public readonly metrics: Metric[];
 
-  public constructor(id: string, name: string, status: ServiceStatus) {
+  public constructor(
+    id: string,
+    name: string,
+    status: ServiceStatus,
+    metrics: Metric[],
+  ) {
     this.id = id;
     this.name = name;
     this.status = status;
+    this.metrics = metrics;
   }
 
   public static parseStatus(status: string): ServiceStatus {

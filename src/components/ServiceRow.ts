@@ -73,7 +73,17 @@ export class ServiceRow extends Component {
             <p class="font-medium text-white">${this.service.name}</p>
           </div>
           <div class="flex items-baseline gap-4">
-            <p class="hidden text-white sm:block">~0 ms</p>
+            ${this.service.metrics.map((metric) =>
+              html`
+                <p class="hidden text-white sm:block">~${metric.percentile(
+                  50,
+                  1,
+                )
+                  .toFixed(
+                    1,
+                  )} ms</p>
+              `
+            )}
             <p class="${this.service.status === ServiceStatus.OPERATIONAL
               ? "text-emerald-400"
               : "text-neutral-300"}">100% uptime</p>
@@ -91,11 +101,15 @@ export class ServiceRow extends Component {
         <div class="mt-1 flex justify-between">
           <p class="text-sm text-neutral-400 uppercase">
             <time datetime="${days(90)}" class="sm:hidden">30 days ago</time>
-            <time datetime="${days(90)}" class="hidden sm:inline md:hidden"
-            >60 days ago</time>
             <time datetime="${days(
               90,
-            )}" class="hidden md:inline">90 days ago</time>
+            )}" class="hidden sm:inline md:hidden">60 days
+              ago
+            </time>
+            <time datetime="${days(
+              90,
+            )}" class="hidden md:inline">90 days ago
+            </time>
           </p>
           <p class="text-sm text-neutral-400 uppercase">
             <time datetime="${days(0)}">Today</time>

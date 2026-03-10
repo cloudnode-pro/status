@@ -61,6 +61,7 @@ export class AppRoot extends Component {
         this.home = true;
         const page = new HomePage();
         page.site = this.site!;
+        page.api = this.api;
         this.page = page;
       })
       .resolve();
