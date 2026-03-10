@@ -13,9 +13,12 @@ export class AppFooter extends Component {
   private renderLink(label: string, href: string) {
     const external = this.isExternal(href);
     return html`
-      <a href="${href}" rel="${external
-        ? "noopener noreferrer"
-        : nothing}" class="text-neutral-400">${label}</a>
+      <a
+        href="${href}"
+        target="${external ? "_blank" : nothing}"
+        rel="${external ? "noopener noreferrer" : nothing}"
+        class="text-neutral-400"
+      >${label}</a>
     `;
   }
 
