@@ -31,8 +31,28 @@ export class AppRoot extends Component {
 
   public override async connectedCallback() {
     super.connectedCallback();
-    this.site = await this.api.getSite();
+
+    document.addEventListener("click", (e) => {
+      if (!(e.target instanceof Element)) {
+        return;
+      }
+      const target = e.target.closest("a");
+      if (target === null) {
+        return;
+      }
+
+      const url = new URL(target.href, window.location.href);
+      if (url.origin !== window.location.origin) {
+        return;
+      }
+
+      e.preventDefault();
+      this.router.navigate(url.pathname);
+    });
+
     this.setupRouter();
+
+    this.site = await this.api.getSite();
   }
 
   private setupRouter() {
