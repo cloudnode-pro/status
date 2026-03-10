@@ -44,6 +44,8 @@ export class AppRoot extends Component {
         <main
           class="flex-1 ring-white/5 ring-inset sm:rounded-2xl sm:bg-neutral-900 sm:ring-1"
         >
+          <div class="flex items-center justify-center gap-4 p-6 md:px-8 md:py-10">
+          </div>
         </main>
         <app-footer></app-footer>
       </div>
