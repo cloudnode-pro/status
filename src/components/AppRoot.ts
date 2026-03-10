@@ -15,13 +15,13 @@ export class AppRoot extends Component {
   private readonly router: Navigo;
 
   @state()
-  private site: Site | null = null;
+  private site!: Site;
 
   @state()
-  private page: Component | null = null;
+  private page!: Component;
 
   @state()
-  private home: boolean = false;
+  private home!: boolean;
 
   public constructor(api: InstatusApi) {
     super();
