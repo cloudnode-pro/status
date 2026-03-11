@@ -67,7 +67,7 @@ export class HomePage extends Page {
 
   public override render() {
     return html`
-      <div class="mt-4 flex flex-col gap-6">
+      <div class="flex flex-col">
         ${this.services.map((service) => {
           if (service instanceof ServiceGroup) {
             const row = new ServiceGroupRow();

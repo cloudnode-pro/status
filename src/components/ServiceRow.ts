@@ -134,6 +134,7 @@ export class ServiceRow extends Component {
   }
 
   public override render(): TemplateResult {
+    this.classList.add("mt-2", "mb-6");
     return html`
       ${this.renderTop()} ${this.renderBars()} ${this.renderBottom()}
     `;
