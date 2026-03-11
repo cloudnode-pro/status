@@ -88,6 +88,10 @@ export class AppRoot extends Component {
           class="flex-1 ring-white/5 ring-inset sm:rounded-2xl sm:bg-neutral-900 sm:ring-1"
         >
           <div class="flex items-center justify-center gap-4 p-6 md:px-8 md:py-10">
+            <div class="flex size-5 items-center justify-center rounded-full bg-emerald-400 text-neutral-900 ring-10 ring-emerald-400/5">
+              <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="currentColor" viewBox="0 0 256 256"><path d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"></path></svg>
+            </div>
+            <h2 class="text-lg font-medium text-white md:text-xl">All systems operational</h2>
           </div>
           <div class="p-6 pt-0! md:p-8">
             ${this.page}
