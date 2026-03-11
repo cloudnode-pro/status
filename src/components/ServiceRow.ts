@@ -1,4 +1,4 @@
-import { html } from "lit";
+import { html, TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { Component } from "./Component";
 import { Service } from "../models/Service";
@@ -45,77 +45,94 @@ export class ServiceRow extends Component {
   @property({ type: Object })
   public service!: Service;
 
-  public override render() {
+  protected renderIcon(): TemplateResult {
     const style = STATUS_STYLES[this.service.status];
-    const bars = Array(90).fill(null);
+    return html`
+      <span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="size-5 ${style.color}"
+          fill="currentColor"
+          viewBox="0 0 256 256"
+        >
+          <g .innerHTML="${style.icon}"></g>
+        </svg>
+        <span
+          class="absolute top-full left-0 z-50 mt-1 block w-max rounded-lg bg-neutral-950/85 px-2 py-1 text-sm leading-normal font-medium text-white shadow-lg ring-1 ring-white/10 backdrop-blur-lg backdrop-invert ring-inset group-[:not(:hover)]/indicator:sr-only lg:-top-1 lg:-left-1 lg:mt-0 lg:-translate-x-full"
+        >${style.label}</span>
+      </span>
+    `;
+  }
 
+  protected renderTop(): TemplateResult {
+    return html`
+      <div class="flex justify-between">
+        <div class="group/indicator relative flex items-center gap-2">
+          ${this.renderIcon()}
+          <p class="font-medium text-white">${this.service.name}</p>
+        </div>
+        <div class="flex items-baseline gap-4">
+          ${this.service.metrics.map((metric) =>
+            html`
+              <p class="hidden text-white sm:block">~${metric.percentile(
+                50,
+                1,
+              )
+                .toFixed(
+                  1,
+                )} ms</p>
+            `
+          )}
+          <p class="${this.service.status === ServiceStatus.OPERATIONAL
+            ? "text-emerald-400"
+            : "text-neutral-300"}">100% uptime</p>
+        </div>
+      </div>
+    `;
+  }
+
+  protected renderBars(): TemplateResult {
+    return html`
+      <div
+        class="mt-2 grid h-8 grid-cols-30 overflow-hidden rounded-sm sm:grid-cols-60 md:grid-cols-90 text-neutral-900 *:border-r *:last:border-r-0 [&>*:not(:nth-last-child(-n+30))]:max-sm:hidden [&>*:not(:nth-last-child(-n+60))]:max-md:hidden"
+      >
+        ${Array(90).fill(null).map(() =>
+          html`
+            <div class="bg-neutral-800"></div>
+          `
+        )}
+      </div>
+    `;
+  }
+
+  protected renderBottom(): TemplateResult {
     const today = new Date();
     const days = (n: number) =>
       new Date(today.getTime() - n * 86400000).toISOString().split("T")[0];
 
     return html`
-      <div>
-        <div class="flex justify-between">
-          <div class="group/indicator relative flex items-center gap-2">
-            <span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="size-5 ${style.color}"
-                fill="currentColor"
-                viewBox="0 0 256 256"
-              >
-                <g .innerHTML="${style.icon}"></g>
-              </svg>
-              <span
-                class="absolute top-full left-0 z-50 mt-1 block w-max rounded-lg bg-neutral-950/85 px-2 py-1 text-sm leading-normal font-medium text-white shadow-lg ring-1 ring-white/10 backdrop-blur-lg backdrop-invert ring-inset group-[:not(:hover)]/indicator:sr-only lg:-top-1 lg:-left-1 lg:mt-0 lg:-translate-x-full"
-              >${style.label}</span>
-            </span>
-            <p class="font-medium text-white">${this.service.name}</p>
-          </div>
-          <div class="flex items-baseline gap-4">
-            ${this.service.metrics.map((metric) =>
-              html`
-                <p class="hidden text-white sm:block">~${metric.percentile(
-                  50,
-                  1,
-                )
-                  .toFixed(
-                    1,
-                  )} ms</p>
-              `
-            )}
-            <p class="${this.service.status === ServiceStatus.OPERATIONAL
-              ? "text-emerald-400"
-              : "text-neutral-300"}">100% uptime</p>
-          </div>
-        </div>
-        <div
-          class="mt-2 grid h-8 grid-cols-30 overflow-hidden rounded-sm sm:grid-cols-60 md:grid-cols-90 text-neutral-900 *:border-r *:last:border-r-0 [&>*:not(:nth-last-child(-n+30))]:max-sm:hidden [&>*:not(:nth-last-child(-n+60))]:max-md:hidden"
-        >
-          ${bars.map(() =>
-            html`
-              <div class="bg-neutral-800"></div>
-            `
-          )}
-        </div>
-        <div class="mt-1 flex justify-between">
-          <p class="text-sm text-neutral-400 uppercase">
-            <time datetime="${days(90)}" class="sm:hidden">30 days ago</time>
-            <time datetime="${days(
-              90,
-            )}" class="hidden sm:inline md:hidden">60 days
-              ago
-            </time>
-            <time datetime="${days(
-              90,
-            )}" class="hidden md:inline">90 days ago
-            </time>
-          </p>
-          <p class="text-sm text-neutral-400 uppercase">
-            <time datetime="${days(0)}">Today</time>
-          </p>
-        </div>
+      <div class="mt-1 flex justify-between">
+        <p class="text-sm text-neutral-400 uppercase">
+          <time datetime="${days(30)}" class="sm:hidden">30 days ago</time>
+          <time datetime="${days(
+            60,
+          )}" class="hidden sm:inline md:hidden">60 days ago
+          </time>
+          <time datetime="${days(
+            90,
+          )}" class="hidden md:inline">90 days ago
+          </time>
+        </p>
+        <p class="text-sm text-neutral-400 uppercase">
+          <time datetime="${days(0)}">Today</time>
+        </p>
       </div>
+    `;
+  }
+
+  public override render(): TemplateResult {
+    return html`
+      ${this.renderTop()} ${this.renderBars()} ${this.renderBottom()}
     `;
   }
 }
