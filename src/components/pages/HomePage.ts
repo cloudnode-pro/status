@@ -22,6 +22,7 @@ export class HomePage extends Page {
     super.connectedCallback();
     this.services = await Promise.all(
       this.site.components
+        .sort((a, b) => a.order - b.order)
         .map(async (c) => {
           const metrics = await Promise.all(
             c.metrics.map(async (m) => {
