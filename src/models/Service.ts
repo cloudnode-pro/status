@@ -6,17 +6,20 @@ export class Service {
   public readonly name: string;
   public readonly status: ServiceStatus;
   public readonly metrics: Metric[];
+  public readonly showUptime: boolean;
 
   public constructor(
     id: string,
     name: string,
     status: ServiceStatus,
     metrics: Metric[],
+    showUptime: boolean,
   ) {
     this.id = id;
     this.name = name;
     this.status = status;
     this.metrics = metrics;
+    this.showUptime = showUptime;
   }
 
   public static parseStatus(status: string): ServiceStatus {

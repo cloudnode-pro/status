@@ -1,4 +1,4 @@
-import { html, TemplateResult } from "lit";
+import { html, nothing, TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { Component } from "./Component";
 import { Service } from "../models/Service";
@@ -82,10 +82,13 @@ export class ServiceRow extends Component {
                   1,
                 )} ms</p>
             `
-          )}
-          <p class="${this.service.status === ServiceStatus.OPERATIONAL
-            ? "text-emerald-400"
-            : "text-neutral-300"}">100% uptime</p>
+          )} ${this.service.showUptime
+            ? html`
+              <p class="${this.service.status === ServiceStatus.OPERATIONAL
+                ? "text-emerald-400"
+                : "text-neutral-300"}">100% uptime</p>
+            `
+            : nothing}
         </div>
       </div>
     `;

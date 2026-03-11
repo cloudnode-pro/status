@@ -36,10 +36,17 @@ export class HomePage extends Page {
                     child.name.default,
                     Service.parseStatus(child.status),
                     [],
+                    child.showUptime,
                   );
                 }),
             );
-            return new ServiceGroup(c.id, c.name.default, children);
+            return new ServiceGroup(
+              c.id,
+              c.name.default,
+              children,
+              c.showUptime,
+              c.isCollapsed,
+            );
           }
           const metrics = await Promise.all(
             c.metrics.map(async (m) => {
@@ -52,6 +59,7 @@ export class HomePage extends Page {
             c.name.default,
             Service.parseStatus(c.status),
             metrics,
+            c.showUptime,
           );
         }),
     );

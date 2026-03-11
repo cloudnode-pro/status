@@ -25,7 +25,10 @@ export class ServiceGroupRow extends ServiceRow {
 
   public override render(): TemplateResult {
     return html`
-      <details class="group/services -m-4 rounded-xl p-4 ring-white/5 open:ring-1">
+      <details
+        class="group/services -m-4 rounded-xl p-4 ring-white/5 open:ring-1"
+        ?open="${!this.service.isCollapsed}"
+      >
         <summary class="block cursor-pointer">
           ${this.renderTop()}
           <div class="group-open/services:hidden">
