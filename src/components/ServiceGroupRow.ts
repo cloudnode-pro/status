@@ -2,6 +2,7 @@ import { html, TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ServiceRow } from "./ServiceRow";
 import { ServiceGroup } from "../models/ServiceGroup";
+import { ServiceStatus } from "../models/ServiceStatus";
 
 @customElement("service-group-row")
 export class ServiceGroupRow extends ServiceRow {
@@ -27,7 +28,10 @@ export class ServiceGroupRow extends ServiceRow {
     return html`
       <details
         class="group/services -m-4 mb-2 rounded-xl p-4 ring-white/5 open:mb-6 open:ring-1"
-        ?open="${!this.service.isCollapsed}"
+        ?open="${!this.service.isCollapsed ||
+          this.service.children.some((c) =>
+            c.status !== ServiceStatus.OPERATIONAL
+          )}"
       >
         <summary class="block cursor-pointer">
           ${this.renderTop()}
