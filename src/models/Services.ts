@@ -1,5 +1,6 @@
 import { Service } from "./Service";
 import { SiteComponent } from "../api/SiteComponent";
+import { ServiceGroup } from "./ServiceGroup";
 
 export class Services {
   public readonly items: Service[];
@@ -13,9 +14,8 @@ export class Services {
   }
 
   public static mostSevere(services: Service[]): Service {
-    return services.reduce((worst, curr) =>
-      curr.status > worst.status ? curr : worst
-    );
+    return services.flatMap((s) => s instanceof ServiceGroup ? s.children : [s])
+      .reduce((worst, curr) => curr.status > worst.status ? curr : worst);
   }
 
   public mostSevere(): Service {

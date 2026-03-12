@@ -8,12 +8,13 @@ import { Site } from "../api/Site";
 import { SiteComponent } from "../api/SiteComponent";
 import "./AppHeader";
 import "./AppFooter";
+import { Metric } from "../models/Metric";
+import { StatusOverview } from "./StatusOverview";
 import { Page } from "./pages/Page";
 import { HomePage } from "./pages/HomePage";
 import { Services } from "../models/Services";
 import { Service } from "../models/Service";
 import { ServiceGroup } from "../models/ServiceGroup";
-import { Metric } from "../models/Metric";
 
 @customElement("app-root")
 export class AppRoot extends Component {
@@ -93,21 +94,7 @@ export class AppRoot extends Component {
         <main
           class="flex-1 ring-white/5 ring-inset sm:rounded-2xl sm:bg-neutral-900 sm:ring-1"
         >
-          <div class="flex items-center justify-center gap-4 p-6 md:px-8 md:py-10">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="size-6 -outline-offset-3 outline-10 outline-emerald-400/5 rounded-full fill-emerald-400"
-              viewBox="0 0 256 256"
-            >
-              <path
-                d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm45.66,85.66-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32Z"
-              >
-              </path>
-            </svg>
-            <h2 class="text-lg font-medium text-white md:text-xl">
-              All systems operational
-            </h2>
-          </div>
+          ${new StatusOverview(this.site.mainStatus, this.services)}
           <div class="p-6 pt-0! md:p-8">
             ${this.page}
           </div>
