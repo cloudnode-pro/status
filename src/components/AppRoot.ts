@@ -5,10 +5,15 @@ import { Component } from "./Component";
 import { CONFIG } from "../config";
 import { InstatusApi } from "../api/InstatusApi";
 import { Site } from "../api/Site";
+import { SiteComponent } from "../api/SiteComponent";
 import "./AppHeader";
 import "./AppFooter";
 import { Page } from "./pages/Page";
 import { HomePage } from "./pages/HomePage";
+import { Services } from "../models/Services";
+import { Service } from "../models/Service";
+import { ServiceGroup } from "../models/ServiceGroup";
+import { Metric } from "../models/Metric";
 
 @customElement("app-root")
 export class AppRoot extends Component {
@@ -23,6 +28,8 @@ export class AppRoot extends Component {
 
   @state()
   private home!: boolean;
+
+  private services!: Promise<Services>;
 
   public constructor(api: InstatusApi) {
     super();
@@ -52,6 +59,7 @@ export class AppRoot extends Component {
     });
 
     this.site = await this.api.getSite();
+    this.services = this.buildServices();
 
     this.setupRouter();
   }
@@ -60,10 +68,7 @@ export class AppRoot extends Component {
     this.router
       .on("/", () => {
         this.home = true;
-        const page = new HomePage();
-        page.site = this.site!;
-        page.api = this.api;
-        this.page = page;
+        this.page = new HomePage(this.services);
       })
       .resolve();
   }
@@ -115,5 +120,45 @@ export class AppRoot extends Component {
         <app-footer></app-footer>
       </div>
     `;
+  }
+
+  private async buildServices(): Promise<Services> {
+    return new Services(
+      await Promise.all(
+        this.site!.components
+          .sort(Services.sort)
+          .map(async (c) => {
+            if (c.isParent) {
+              return new ServiceGroup(
+                c.id,
+                c.name.default,
+                await Promise.all(
+                  c.children
+                    .sort(Services.sort)
+                    .map(this.buildService),
+                ),
+                c.showUptime,
+                c.isCollapsed,
+              );
+            }
+            return this.buildService(c);
+          }),
+      ),
+    );
+  }
+
+  private async buildService(c: SiteComponent): Promise<Service> {
+    return new Service(
+      c.id,
+      c.name.default,
+      Service.parseStatus(c.status),
+      await Promise.all(
+        c.metrics.map(async (m) => {
+          const data = await this.api.getMetricData(m.id, 90);
+          return new Metric(m.id, m.name.default, m.suffix, data);
+        }),
+      ),
+      c.showUptime,
+    );
   }
 }

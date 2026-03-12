@@ -1,5 +1,3 @@
-import { ComponentChild } from "./ComponentChild";
-
 export interface SiteComponent {
   id: string;
   name: { default: string };
@@ -20,5 +18,5 @@ export interface SiteComponent {
     active: boolean;
   }[];
   group: null;
-  children: ComponentChild[];
+  children: SiteComponent[];
 }
