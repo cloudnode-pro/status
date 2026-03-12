@@ -1,4 +1,4 @@
-export enum ServiceStatus {
+export const enum ServiceStatus {
   OPERATIONAL,
   UNDER_MAINTENANCE,
   DEGRADED_PERFORMANCE,
