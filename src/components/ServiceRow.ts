@@ -54,8 +54,8 @@ export class ServiceRow extends Component {
           class="size-5 ${style.color}"
           fill="currentColor"
           viewBox="0 0 256 256"
+          .innerHTML="${style.icon}"
         >
-          <g .innerHTML="${style.icon}"></g>
         </svg>
         <span
           class="absolute top-full left-0 z-50 mt-1 block w-max rounded-lg bg-neutral-950/85 px-2 py-1 text-sm leading-normal font-medium text-white shadow-lg ring-1 ring-white/10 backdrop-blur-lg backdrop-invert ring-inset group-[:not(:hover)]/indicator:sr-only lg:-top-1 lg:-left-1 lg:mt-0 lg:-translate-x-full"
