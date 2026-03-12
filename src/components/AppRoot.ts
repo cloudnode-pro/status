@@ -7,6 +7,7 @@ import { InstatusApi } from "../api/InstatusApi";
 import { Site } from "../api/Site";
 import "./AppHeader";
 import "./AppFooter";
+import { Page } from "./pages/Page";
 import { HomePage } from "./pages/HomePage";
 
 @customElement("app-root")
@@ -18,7 +19,7 @@ export class AppRoot extends Component {
   private site!: Site;
 
   @state()
-  private page!: Component;
+  private page!: Page;
 
   @state()
   private home!: boolean;
