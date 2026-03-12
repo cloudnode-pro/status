@@ -1,5 +1,5 @@
 import { Service } from "./Service";
-import { ServiceStatus } from "./ServiceStatus";
+import { Services } from "./Services";
 
 export class ServiceGroup extends Service {
   public readonly children: Service[];
@@ -12,11 +12,7 @@ export class ServiceGroup extends Service {
     showUptime: boolean,
     isCollapsed: boolean,
   ) {
-    const status = children.reduce(
-      (worst, child) => child.status > worst ? child.status : worst,
-      ServiceStatus.OPERATIONAL,
-    );
-    super(id, name, status, [], showUptime);
+    super(id, name, Services.mostSevere(children).status, [], showUptime);
     this.children = children;
     this.isCollapsed = isCollapsed;
   }
