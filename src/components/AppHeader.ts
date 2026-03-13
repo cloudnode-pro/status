@@ -29,7 +29,9 @@ export class AppHeader extends Component {
           href="${logoHref}"
           class="z-20 outline-offset-2 outline-blue-400 focus-visible:outline-2"
         >
-          <img src="${this.logoUrl}" alt="${this.logoAlt}" class="h-8" />
+          <img src="https://wsrv.nl?url=${window.encodeURIComponent(
+            this.logoUrl,
+          )}" alt="${this.logoAlt}" class="h-8" />
         </a>
         <div class="hidden items-center gap-2 sm:flex">
           ${this.links.map((link) =>
