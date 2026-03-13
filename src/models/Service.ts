@@ -1,13 +1,11 @@
 import { ServiceStatus } from "./ServiceStatus";
 import { Metric } from "./Metric";
-import { Notice } from "./Notice";
 
 export class Service {
   public readonly id: string;
   public readonly name: string;
   public readonly status: ServiceStatus;
   public readonly metrics: Metric[];
-  public readonly notices: Notice[];
   public readonly showUptime: boolean;
 
   public constructor(
@@ -15,14 +13,12 @@ export class Service {
     name: string,
     status: ServiceStatus,
     metrics: Metric[],
-    notices: Notice[],
     showUptime: boolean,
   ) {
     this.id = id;
     this.name = name;
     this.status = status;
     this.metrics = metrics;
-    this.notices = notices;
     this.showUptime = showUptime;
   }
 

@@ -1,6 +1,5 @@
 import { Service } from "./Service";
 import { Services } from "./Services";
-import { Notice } from "./Notice";
 
 export class ServiceGroup extends Service {
   public readonly children: Service[];
@@ -10,18 +9,10 @@ export class ServiceGroup extends Service {
     id: string,
     name: string,
     children: Service[],
-    notices: Notice[],
     showUptime: boolean,
     isCollapsed: boolean,
   ) {
-    super(
-      id,
-      name,
-      Services.mostSevere(children).status,
-      [],
-      notices,
-      showUptime,
-    );
+    super(id, name, Services.mostSevere(children).status, [], showUptime);
     this.children = children;
     this.isCollapsed = isCollapsed;
   }
