@@ -17,7 +17,7 @@ export class AppFooter extends Component {
         href="${href}"
         target="${external ? "_blank" : nothing}"
         rel="${external ? "noopener noreferrer" : nothing}"
-        class="text-neutral-400"
+        class="rounded-md text-neutral-400 outline-offset-2 outline-blue-400 focus-visible:outline-2"
       >${label}</a>
     `;
   }

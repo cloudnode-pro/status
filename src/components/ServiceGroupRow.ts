@@ -55,7 +55,9 @@ export class ServiceGroupRow extends ServiceRow {
             c.status !== ServiceStatus.OPERATIONAL
           )}"
       >
-        <summary class="block cursor-pointer">
+        <summary
+          class="block cursor-pointer rounded-md outline-offset-4 outline-blue-400 focus-visible:outline-2"
+        >
           ${this.renderTop()}
           <div class="group-open/services:hidden">
             ${this.renderBars()} ${this.renderBottom()}
