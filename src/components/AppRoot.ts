@@ -91,14 +91,16 @@ export class AppRoot extends Component {
           .links="${this.site.links.header}"
           .home="${this.home}"
         ></app-header>
-        <main
-          class="flex-1 ring-white/5 ring-inset sm:rounded-2xl sm:bg-neutral-900 sm:ring-1"
-        >
-          ${new StatusOverview(this.site.mainStatus, this.services)}
-          <div class="p-6 pt-0! md:p-8">
-            ${this.page}
-          </div>
-        </main>
+        <div class="flex-1">
+          <main
+            class="ring-white/5 ring-inset sm:rounded-2xl sm:bg-neutral-900 sm:ring-1"
+          >
+            ${new StatusOverview(this.site.mainStatus, this.services)}
+            <div class="p-6 pt-0! md:p-8">
+              ${this.page}
+            </div>
+          </main>
+        </div>
         <app-footer></app-footer>
       </div>
     `;
