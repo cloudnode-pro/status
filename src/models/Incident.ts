@@ -2,13 +2,9 @@ import { BaseComponent } from "../api/BaseComponent";
 import { NoticeStatus } from "./NoticeStatus";
 import { Notice } from "./Notice";
 import { NoticeUpdate } from "./NoticeUpdate";
+import { ServiceStatus } from "./ServiceStatus";
 
 export class Incident extends Notice {
-  public readonly status: NoticeStatus;
-  public readonly started: Date;
-  public readonly resolved: Date | null;
-  public readonly impact: string;
-
   public constructor(
     id: string,
     name: string,
@@ -17,13 +13,9 @@ export class Incident extends Notice {
     status: NoticeStatus,
     started: Date,
     resolved: Date | null,
-    impact: string,
+    impact: ServiceStatus,
   ) {
-    super(id, name, components, updates);
-    this.status = status;
-    this.started = started;
-    this.resolved = resolved;
-    this.impact = impact;
+    super(id, name, components, updates, status, started, resolved, impact);
   }
 
   public static parseStatus(status: string): NoticeStatus {
