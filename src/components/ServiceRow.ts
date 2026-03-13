@@ -115,7 +115,7 @@ export class ServiceRow extends Component {
 
     return html`
       <div class="mt-1 flex justify-between">
-        <p class="text-sm text-neutral-400 uppercase">
+        <p class="text-sm text-neutral-400">
           <time datetime="${days(30)}" class="sm:hidden">30 days ago</time>
           <time datetime="${days(
             60,
@@ -126,7 +126,7 @@ export class ServiceRow extends Component {
           )}" class="hidden md:inline">90 days ago
           </time>
         </p>
-        <p class="text-sm text-neutral-400 uppercase">
+        <p class="text-sm text-neutral-400">
           <time datetime="${days(0)}">Today</time>
         </p>
       </div>
