@@ -69,7 +69,7 @@ export class AppRoot extends Component {
     this.router
       .on("/", () => {
         this.home = true;
-        this.page = new HomePage(this.services);
+        this.page = new HomePage(this.api, this.services);
       })
       .resolve();
   }

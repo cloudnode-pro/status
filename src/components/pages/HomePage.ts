@@ -1,17 +1,18 @@
 import { html } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { Site } from "../../api/Site";
 import { Page } from "./Page";
 import { ServiceGroup } from "../../models/ServiceGroup";
 import { ServiceRow } from "../ServiceRow";
 import { ServiceGroupRow } from "../ServiceGroupRow";
 import { Services } from "../../models/Services";
+import { InstatusApi } from "../../api/InstatusApi";
 
 @customElement("home-page")
 export class HomePage extends Page {
   readonly #services: Promise<Services>;
-  public constructor(services: Promise<Services>) {
+  public constructor(api: InstatusApi, services: Promise<Services>) {
     super();
+    this.api = api;
     this.#services = services;
   }
 
@@ -21,7 +22,7 @@ export class HomePage extends Page {
   }
 
   @property({ type: Object })
-  public site!: Site;
+  public api!: InstatusApi;
 
   @property({ type: Object })
   public services!: Services;
