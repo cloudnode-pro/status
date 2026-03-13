@@ -179,6 +179,7 @@ export class StatusOverview extends Component {
             xmlns="http://www.w3.org/2000/svg"
             class="size-6 ${style.color}"
             viewBox="0 0 256 256"
+            aria-hidden="true"
             .innerHTML="${style.icon}"
           >
           </svg>
