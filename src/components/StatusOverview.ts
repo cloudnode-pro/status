@@ -28,8 +28,8 @@ export class StatusOverview extends Component {
       message: (s) => `${s.name} under maintenance`,
     },
     [MainStatus.ONE_DEGRADED_PERFORMANCE]: {
-      bg: "bg-yellow-400/5 ring-yellow-400/5",
-      color: "fill-yellow-400",
+      bg: "bg-amber-400/5 ring-amber-400/5",
+      color: "fill-amber-400",
       icon:
         `<path d="M236.8,188.09,149.35,36.22h0a24.76,24.76,0,0,0-42.7,0L19.2,188.09a23.51,23.51,0,0,0,0,23.72A24.35,24.35,0,0,0,40.55,224h174.9a24.35,24.35,0,0,0,21.33-12.19A23.51,23.51,0,0,0,236.8,188.09ZM120,104a8,8,0,0,1,16,0v40a8,8,0,0,1-16,0Zm8,88a12,12,0,1,1,12-12A12,12,0,0,1,128,192Z"></path>`,
       message: (s) => `${s.name} experiencing degraded performance`,
@@ -56,8 +56,8 @@ export class StatusOverview extends Component {
       message: "System under maintenance",
     },
     [MainStatus.SOME_DEGRADED_PERFORMANCE]: {
-      bg: "bg-yellow-400/5 ring-yellow-400/5",
-      color: "fill-yellow-400",
+      bg: "bg-amber-400/5 ring-amber-400/5",
+      color: "fill-amber-400",
       icon:
         `<path d="M236.8,188.09,149.35,36.22h0a24.76,24.76,0,0,0-42.7,0L19.2,188.09a23.51,23.51,0,0,0,0,23.72A24.35,24.35,0,0,0,40.55,224h174.9a24.35,24.35,0,0,0,21.33-12.19A23.51,23.51,0,0,0,236.8,188.09ZM120,104a8,8,0,0,1,16,0v40a8,8,0,0,1-16,0Zm8,88a12,12,0,1,1,12-12A12,12,0,0,1,128,192Z"></path>`,
       message: "Experiencing partially degraded performance",
@@ -84,8 +84,8 @@ export class StatusOverview extends Component {
       message: "Under maintenance",
     },
     [MainStatus.ALL_DEGRADED_PERFORMANCE]: {
-      bg: "bg-yellow-400/5 ring-yellow-400/5",
-      color: "fill-yellow-400",
+      bg: "bg-amber-400/5 ring-amber-400/5",
+      color: "fill-amber-400",
       icon:
         `<path d="M236.8,188.09,149.35,36.22h0a24.76,24.76,0,0,0-42.7,0L19.2,188.09a23.51,23.51,0,0,0,0,23.72A24.35,24.35,0,0,0,40.55,224h174.9a24.35,24.35,0,0,0,21.33-12.19A23.51,23.51,0,0,0,236.8,188.09ZM120,104a8,8,0,0,1,16,0v40a8,8,0,0,1-16,0Zm8,88a12,12,0,1,1,12-12A12,12,0,0,1,128,192Z"></path>`,
       message: "Experiencing degraded performance",
