@@ -1,7 +1,10 @@
 import "./style.css";
+import { injectSpeedInsights } from "@vercel/speed-insights";
 import { CONFIG } from "./config";
 import { AppRoot } from "./components/AppRoot";
 import { InstatusApi } from "./api/InstatusApi";
+
+injectSpeedInsights();
 
 document.title = CONFIG.NAME;
 
