@@ -170,6 +170,11 @@ export class ServiceRow extends Component {
     const now = new Date();
     const bars = Array.from({ length: 90 }, (_, i) => {
       const day = new Date(now.getTime() - (89 - i) * 86400000);
+      if ((this.service.started?.getTime() ?? 0) > day.getTime()) {
+        return html`
+          <div class="bg-white/10"></div>
+        `;
+      }
       const notices = this.noticesForDay(day);
       if (notices.length === 0) {
         return html`

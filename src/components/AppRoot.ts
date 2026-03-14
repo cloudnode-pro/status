@@ -142,6 +142,7 @@ export class AppRoot extends Component {
           return new Metric(m.id, m.name.default, m.suffix, data);
         }),
       ),
+      c.startDate === null ? null : new Date(c.startDate),
       c.showUptime,
     );
   }
