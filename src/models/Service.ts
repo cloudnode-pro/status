@@ -4,6 +4,7 @@ import { Metric } from "./Metric";
 export class Service {
   public readonly id: string;
   public readonly name: string;
+  public readonly description: string | null;
   public readonly status: ServiceStatus;
   public readonly metrics: Metric[];
   public readonly started: Date | null;
@@ -12,6 +13,7 @@ export class Service {
   public constructor(
     id: string,
     name: string,
+    description: string | null,
     status: ServiceStatus,
     metrics: Metric[],
     started: Date | null,
@@ -19,6 +21,7 @@ export class Service {
   ) {
     this.id = id;
     this.name = name;
+    this.description = description;
     this.status = status;
     this.metrics = metrics;
     this.started = started;

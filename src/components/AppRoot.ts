@@ -116,6 +116,7 @@ export class AppRoot extends Component {
               return new ServiceGroup(
                 c.id,
                 c.name.default,
+                c.description.default === "" ? null : c.description.default,
                 await Promise.all(
                   c.children
                     .sort(Services.sort)
@@ -135,6 +136,7 @@ export class AppRoot extends Component {
     return new Service(
       c.id,
       c.name.default,
+      c.description.default === "" ? null : c.description.default,
       Service.parseStatus(c.status),
       await Promise.all(
         c.metrics.map(async (m) => {

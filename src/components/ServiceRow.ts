@@ -1,5 +1,7 @@
 import { html, nothing, TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { unsafeHTML } from "lit/directives/unsafe-html.js";
+import markdownit from "markdown-it";
 import { Component } from "./Component";
 import { Service } from "../models/Service";
 import { ServiceStatus } from "../models/ServiceStatus";
@@ -7,6 +9,8 @@ import { Notice } from "../models/Notice";
 
 @customElement("service-row")
 export class ServiceRow extends Component {
+  private static readonly MD = markdownit();
+
   protected static readonly STATUS_STYLES: Record<
     ServiceStatus,
     { color: string; bar: string; label: string; icon: string }
@@ -137,9 +141,33 @@ export class ServiceRow extends Component {
   protected renderTop(): TemplateResult {
     return html`
       <div class="flex justify-between">
-        <div class="group/indicator relative flex items-center gap-2">
-          ${this.renderIcon()}
-          <p class="font-medium text-white">${this.service.name}</p>
+        <div class="relative flex items-center gap-2">
+          <div class="group/indicator relative flex items-center gap-2">
+            ${this.renderIcon()}
+            <p class="font-medium text-white">${this.service.name}</p>
+          </div>
+          ${this.service.description === null ? nothing : html`
+            <div class="group/description relative">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="size-4 fill-neutral-400"
+                viewBox="0 0 256 256"
+                aria-hidden="true"
+              >
+                <path
+                  d="M108,84a16,16,0,1,1,16,16A16,16,0,0,1,108,84Zm128,44A108,108,0,1,1,128,20,108.12,108.12,0,0,1,236,128Zm-24,0a84,84,0,1,0-84,84A84.09,84.09,0,0,0,212,128Zm-72,36.68V132a20,20,0,0,0-20-20,12,12,0,0,0-4,23.32V168a20,20,0,0,0,20,20,12,12,0,0,0,4-23.32Z"
+                >
+                </path>
+              </svg>
+              <div
+                class="prose prose-neutral prose-invert prose-sm top-full left-0 absolute z-50 block w-max rounded-lg bg-neutral-950/85 px-2 py-1 text-white font-medium shadow-lg ring-1 ring-white/10 backdrop-blur-lg backdrop-invert ring-inset group-[:not(:hover)]/description:sr-only lg:-top-2 lg:left-full lg:mt-0 lg:translate-x-1 max-w-sm"
+              >
+                ${unsafeHTML(
+                  ServiceRow.MD.render(this.service.description),
+                )}
+              </div>
+            </div>
+          `}
         </div>
         <div class="flex items-baseline gap-4">
           ${this.service.metrics.map((metric) =>
