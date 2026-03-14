@@ -8,6 +8,7 @@ export class ServiceGroup extends Service {
   public constructor(
     id: string,
     name: string,
+    description: string | null,
     children: Service[],
     showUptime: boolean,
     isCollapsed: boolean,
@@ -15,6 +16,7 @@ export class ServiceGroup extends Service {
     super(
       id,
       name,
+      description,
       Services.mostSevere(children).status,
       [],
       Array.from(children).sort((a, b) =>
