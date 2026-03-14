@@ -6,6 +6,7 @@ export class Service {
   public readonly name: string;
   public readonly status: ServiceStatus;
   public readonly metrics: Metric[];
+  public readonly started: Date | null;
   public readonly showUptime: boolean;
 
   public constructor(
@@ -13,12 +14,14 @@ export class Service {
     name: string,
     status: ServiceStatus,
     metrics: Metric[],
+    started: Date | null,
     showUptime: boolean,
   ) {
     this.id = id;
     this.name = name;
     this.status = status;
     this.metrics = metrics;
+    this.started = started;
     this.showUptime = showUptime;
   }
 
