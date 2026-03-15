@@ -108,7 +108,11 @@ export class HomePage extends Page {
         ),
         Maintenance.parseStatus(m.status),
         new Date(m.start),
-        new Date(m.resolved),
+        new Date(
+          m.resolved === null
+            ? new Date(m.start).getTime() + (m.duration * 60000)
+            : m.resolved,
+        ),
       );
       this.notices.push(maintenance);
 
