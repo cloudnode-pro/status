@@ -122,11 +122,11 @@ export class ServiceRow extends Component {
     const worst = presentNotices.reduce((w, n) => n.impact > w.impact ? n : w);
     return html`
       <div
-        class="group/bar flex outline-offset-2 outline-blue-400 [:has(:focus-visible)]:z-10 [:has(:focus-visible)]:outline-2"
+        class="group/bar flex outline-offset-2 outline-blue-400 has-focus-visible:z-10 has-focus-visible:outline-2"
       >
         <div
           class="size-full ${ServiceRow.STATUS_STYLES[worst.impact]
-            .bar} group-first/bar:rounded-l-sm group-nth-61/bar:rounded-l-sm sm:group-nth-61/bar:rounded-l-none sm:group-nth-31/bar:rounded-l-sm md:group-nth-31/bar:rounded-l-none group-last/bar:rounded-r-sm group-hover/bar:brightness-70 group-[:has(:focus-visible)]/bar:brightness-70"
+            .bar} group-first/bar:rounded-l-sm group-nth-61/bar:rounded-l-sm sm:group-nth-61/bar:rounded-l-none sm:group-nth-31/bar:rounded-l-sm md:group-nth-31/bar:rounded-l-none group-last/bar:rounded-r-sm group-hover/bar:brightness-70 group-has-focus-visible/bar:brightness-70"
         >
         </div>
         ${new ServiceDayTooltip(notices, day, started)}
@@ -194,7 +194,7 @@ export class ServiceRow extends Component {
         >
         </svg>
         <span
-          class="absolute top-full left-0 z-50 mt-1 block w-max rounded-lg bg-neutral-800 px-2 py-1 text-sm leading-normal font-medium text-white shadow-md ring-1 ring-white/10 ring-inset group-[:not(:hover)]/indicator:sr-only lg:-top-1 lg:-left-1 lg:mt-0 lg:-translate-x-full"
+          class="absolute top-full left-0 z-50 mt-1 block w-max rounded-lg bg-neutral-800 px-2 py-1 text-sm leading-normal font-medium text-white shadow-md ring-1 ring-white/10 ring-inset not-group-hover/indicator:sr-only lg:-top-1 lg:-left-1 lg:mt-0 lg:-translate-x-full"
         >${style.label}</span>
       </span>
     `;
@@ -222,7 +222,7 @@ export class ServiceRow extends Component {
                 </path>
               </svg>
               <div
-                class="prose prose-neutral prose-invert prose-sm top-full left-0 absolute z-50 block w-max rounded-lg bg-neutral-800 px-2 py-1 text-white font-medium shadow-md ring-1 ring-white/10 ring-inset group-[:not(:hover)]/description:sr-only lg:-top-2 lg:left-full lg:mt-0 lg:translate-x-1 max-w-sm"
+                class="prose prose-neutral prose-invert prose-sm top-full left-0 absolute z-50 block w-max rounded-lg bg-neutral-800 px-2 py-1 text-white font-medium shadow-md ring-1 ring-white/10 ring-inset not-group-hover/description:sr-only lg:-top-2 lg:left-full lg:mt-0 lg:translate-x-1 max-w-sm"
               >
                 ${unsafeHTML(
                   ServiceRow.MD.render(this.service.description),
@@ -266,7 +266,7 @@ export class ServiceRow extends Component {
 
     return html`
       <div
-        class="relative mt-2 grid h-8 grid-cols-30 rounded-sm *:border-r *:border-neutral-900 *:last:border-r-0 sm:grid-cols-60 md:grid-cols-90 [&>:not(:nth-last-child(-n+30))]:max-sm:hidden [&>:not(:nth-last-child(-n+60))]:max-md:hidden"
+        class="relative mt-2 grid h-8 grid-cols-30 rounded-sm *:border-r *:border-neutral-900 *:last:border-r-0 sm:grid-cols-60 md:grid-cols-90 max-sm:*:not-nth-last-[-n+30]:hidden max-md:*:not-nth-last-[-n+60]:hidden"
       >
         ${bars}
       </div>
