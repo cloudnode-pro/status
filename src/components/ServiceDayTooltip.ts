@@ -71,7 +71,7 @@ export class ServiceDayTooltip extends Component {
 
     return html`
       <div
-        class="absolute -inset-x-2 top-full z-50 rounded-xl bg-neutral-800 shadow-md ring-1 ring-white/10 ring-inset group-[:not(:hover):not(:focus-visible):not(:has(:focus-visible))]/bar:sr-only"
+        class="absolute -inset-x-2 top-full z-50 rounded-xl bg-neutral-800 shadow-md ring-1 ring-white/10 ring-inset not-group-hover/bar:not-group-focus-visible/bar:not-group-has-focus-visible/bar:sr-only"
       >
         <div
           class="grid grid-cols-3 items-center border-b border-white/10 px-3 py-2 leading-none"
@@ -120,7 +120,7 @@ export class ServiceDayTooltip extends Component {
                       >
                       </svg>
                       <span
-                        class="absolute top-full left-0 z-50 mt-1 block w-max rounded-lg bg-neutral-800 px-2 py-1 text-sm leading-normal font-medium text-white shadow-md ring-1 ring-white/10 ring-inset group-[:not(:hover)]/indicator:sr-only lg:-top-1 lg:-left-1 lg:mt-0 lg:-translate-x-full"
+                        class="absolute top-full left-0 z-50 mt-1 block w-max rounded-lg bg-neutral-800 px-2 py-1 text-sm leading-normal font-medium text-white shadow-md ring-1 ring-white/10 ring-inset not-group-hover/indicator:sr-only lg:-top-1 lg:-left-1 lg:mt-0 lg:-translate-x-full"
                       >${style.label}</span>
                     </div>
                     <a
