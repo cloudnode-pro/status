@@ -70,7 +70,7 @@ export class AppHeader extends Component {
             <span class="sr-only">Menu</span>
           </summary>
           <div
-            class="absolute inset-x-0 top-0 z-10 bg-neutral-900/80 pt-16 shadow-lg backdrop-blur-lg"
+            class="absolute inset-x-0 top-0 z-10 bg-neutral-900/80 pt-16 shadow-md backdrop-blur-lg"
           >
             <ul class="z-10 mx-auto flex flex-col py-2">
               ${this.links.map((link) =>

@@ -194,7 +194,7 @@ export class ServiceRow extends Component {
         >
         </svg>
         <span
-          class="absolute top-full left-0 z-50 mt-1 block w-max rounded-lg bg-neutral-800 px-2 py-1 text-sm leading-normal font-medium text-white shadow-lg ring-1 ring-white/10 ring-inset group-[:not(:hover)]/indicator:sr-only lg:-top-1 lg:-left-1 lg:mt-0 lg:-translate-x-full"
+          class="absolute top-full left-0 z-50 mt-1 block w-max rounded-lg bg-neutral-800 px-2 py-1 text-sm leading-normal font-medium text-white shadow-md ring-1 ring-white/10 ring-inset group-[:not(:hover)]/indicator:sr-only lg:-top-1 lg:-left-1 lg:mt-0 lg:-translate-x-full"
         >${style.label}</span>
       </span>
     `;
@@ -222,7 +222,7 @@ export class ServiceRow extends Component {
                 </path>
               </svg>
               <div
-                class="prose prose-neutral prose-invert prose-sm top-full left-0 absolute z-50 block w-max rounded-lg bg-neutral-800 px-2 py-1 text-white font-medium shadow-lg ring-1 ring-white/10 ring-inset group-[:not(:hover)]/description:sr-only lg:-top-2 lg:left-full lg:mt-0 lg:translate-x-1 max-w-sm"
+                class="prose prose-neutral prose-invert prose-sm top-full left-0 absolute z-50 block w-max rounded-lg bg-neutral-800 px-2 py-1 text-white font-medium shadow-md ring-1 ring-white/10 ring-inset group-[:not(:hover)]/description:sr-only lg:-top-2 lg:left-full lg:mt-0 lg:translate-x-1 max-w-sm"
               >
                 ${unsafeHTML(
                   ServiceRow.MD.render(this.service.description),
