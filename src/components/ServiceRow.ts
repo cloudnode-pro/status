@@ -81,6 +81,10 @@ export class ServiceRow extends Component {
     const tomorrow = new Date(day);
     tomorrow.setDate(tomorrow.getDate() + 1);
 
+    const presentNotices = notices.filter((n) =>
+      n.started.getTime() < Date.now()
+    );
+
     if (started !== null && started.getTime() > tomorrow.getTime()) {
       return html`
         <div
@@ -99,7 +103,7 @@ export class ServiceRow extends Component {
       `;
     }
 
-    if (notices.length === 0) {
+    if (presentNotices.length === 0) {
       return html`
         <div
           class="group/bar flex"
@@ -115,7 +119,7 @@ export class ServiceRow extends Component {
       `;
     }
 
-    const worst = notices.reduce((w, n) => n.impact > w.impact ? n : w);
+    const worst = presentNotices.reduce((w, n) => n.impact > w.impact ? n : w);
     return html`
       <div
         class="group/bar flex outline-offset-2 outline-blue-400 [:has(:focus-visible)]:z-10 [:has(:focus-visible)]:outline-2"
