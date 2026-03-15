@@ -91,7 +91,7 @@ export class ServiceRow extends Component {
           class="group/bar flex"
         >
           <div
-            class="size-full bg-white/10 group-first/bar:rounded-l-sm group-last/bar:rounded-r-sm group-hover/bar:brightness-70"
+            class="size-full bg-white/10 group-first/bar:rounded-l-sm group-nth-61/bar:rounded-l-sm sm:group-nth-61/bar:rounded-l-none sm:group-nth-31/bar:rounded-l-sm md:group-nth-31/bar:rounded-l-none group-last/bar:rounded-r-sm group-hover/bar:brightness-70"
           >
           </div>
           ${new ServiceDayTooltip(
@@ -111,7 +111,7 @@ export class ServiceRow extends Component {
           <div
             class="size-full ${ServiceRow
               .STATUS_STYLES[ServiceStatus.OPERATIONAL]
-              .bar} group-first/bar:rounded-l-sm group-last/bar:rounded-r-sm group-hover/bar:brightness-70"
+              .bar} group-first/bar:rounded-l-sm group-nth-61/bar:rounded-l-sm sm:group-nth-61/bar:rounded-l-none sm:group-nth-31/bar:rounded-l-sm md:group-nth-31/bar:rounded-l-none group-last/bar:rounded-r-sm group-hover/bar:brightness-70"
           >
           </div>
           ${new ServiceDayTooltip(notices, day, started)}
@@ -126,7 +126,7 @@ export class ServiceRow extends Component {
       >
         <div
           class="size-full ${ServiceRow.STATUS_STYLES[worst.impact]
-            .bar} group-first/bar:rounded-l-sm group-last/bar:rounded-r-sm group-hover/bar:brightness-70 group-[:has(:focus-visible)]/bar:brightness-70"
+            .bar} group-first/bar:rounded-l-sm group-nth-61/bar:rounded-l-sm sm:group-nth-61/bar:rounded-l-none sm:group-nth-31/bar:rounded-l-sm md:group-nth-31/bar:rounded-l-none group-last/bar:rounded-r-sm group-hover/bar:brightness-70 group-[:has(:focus-visible)]/bar:brightness-70"
         >
         </div>
         ${new ServiceDayTooltip(notices, day, started)}
