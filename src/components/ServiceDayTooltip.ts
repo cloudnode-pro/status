@@ -196,7 +196,10 @@ export class ServiceDayTooltip extends Component {
               let cursor = monitorStart;
               for (const n of clampedNotices) {
                 if (cursor < n.start) {
-                  greenSegments.push({ start: cursor, end: n.start });
+                  greenSegments.push({
+                    start: cursor,
+                    end: Math.min(n.start, monitorEnd),
+                  });
                 }
                 cursor = Math.max(cursor, n.end);
               }
