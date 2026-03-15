@@ -68,7 +68,7 @@ export class HomePage extends Page {
     for (const i of incidents) {
       const incident = new Incident(
         i.id,
-        i.name.default,
+        typeof i.name === "string" ? i.name : i.name.default,
         i.components,
         i.updates.map((u) =>
           new NoticeUpdate(
@@ -96,7 +96,7 @@ export class HomePage extends Page {
     for (const m of maintenances) {
       const maintenance = new Maintenance(
         m.id,
-        m.name.default,
+        typeof m.name === "string" ? m.name : m.name.default,
         m.components,
         m.updates.map((u) =>
           new NoticeUpdate(
@@ -108,7 +108,11 @@ export class HomePage extends Page {
         ),
         Maintenance.parseStatus(m.status),
         new Date(m.start),
-        new Date(m.resolved),
+        new Date(
+          m.resolved === null
+            ? new Date(m.start).getTime() + (m.duration * 60000)
+            : m.resolved,
+        ),
       );
       this.notices.push(maintenance);
 

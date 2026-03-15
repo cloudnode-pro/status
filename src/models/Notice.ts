@@ -13,7 +13,7 @@ export abstract class Notice {
   public readonly ended: Date | null;
   public readonly impact: ServiceStatus;
 
-  public constructor(
+  protected constructor(
     id: string,
     name: string,
     components: BaseComponent[],
@@ -35,7 +35,20 @@ export abstract class Notice {
     this.impact = impact;
   }
 
-  public get duration(): number {
-    return (this.ended?.getTime() ?? Date.now()) - this.started.getTime();
+  public duration(day?: Date): number {
+    if (day === undefined) {
+      return (this.ended?.getTime() ?? Date.now()) - this.started.getTime();
+    }
+
+    const dayStart = new Date(day);
+    dayStart.setHours(0, 0, 0, 0);
+    const nextDayStart = new Date(dayStart);
+    nextDayStart.setDate(dayStart.getDate() + 1);
+
+    return Math.max(
+      0,
+      Math.min(this.ended?.getTime() ?? Date.now(), nextDayStart.getTime()) -
+        Math.max(this.started.getTime(), dayStart.getTime()),
+    );
   }
 }
