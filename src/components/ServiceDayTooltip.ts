@@ -121,7 +121,8 @@ export class ServiceDayTooltip extends Component {
                         class="absolute top-full left-0 z-50 mt-1 block w-max rounded-lg bg-neutral-800 px-2 py-1 text-sm leading-normal font-medium text-white shadow-lg ring-1 ring-white/10 ring-inset group-[:not(:hover)]/indicator:sr-only lg:-top-1 lg:-left-1 lg:mt-0 lg:-translate-x-full"
                       >${style.label}</span>
                     </div>
-                    <a href="/notice/${n.id}" class="font-medium text-white">${n
+                    <a href="/notices/${n
+                      .id}" class="font-medium text-white">${n
                       .name}<span
                       class="absolute inset-0"
                     ></span></a>
