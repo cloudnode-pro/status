@@ -23,7 +23,7 @@ export class ServiceDayTooltip extends Component {
     [NoticeStatus.INCIDENT_INVESTIGATING]: "Investigating",
     [NoticeStatus.INCIDENT_MONITORING]: "Monitoring",
     [NoticeStatus.INCIDENT_RESOLVED]: "Resolved",
-    [NoticeStatus.MAINTENANCE_NOT_STARTED_YET]: "Not started yet",
+    [NoticeStatus.MAINTENANCE_NOT_STARTED_YET]: "Planned",
     [NoticeStatus.MAINTENANCE_IN_PROGRESS]: "In progress",
     [NoticeStatus.MAINTENANCE_COMPLETED]: "Completed",
   };
@@ -128,7 +128,8 @@ export class ServiceDayTooltip extends Component {
                     ></span></a>
 
                     <div class="mx-2 flex-1 border-t border-white/10"></div>
-                    <p class="text-sm text-neutral-400">${n.ended === null
+                    <p class="text-sm text-neutral-400">${n.ended === null ||
+                        n.started.getTime() > now.getTime()
                       ? ServiceDayTooltip.STATUS_NAMES[n.status]
                       : html`
                         Resolved after <time datetime="${duration
