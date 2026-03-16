@@ -134,11 +134,13 @@ export class ServiceDayTooltip extends Component {
 
                     <div class="mx-2 flex-1 border-t border-white/10"></div>
                     <p class="text-sm text-neutral-400">${n.ended === null ||
-                        n.started.getTime() > now.getTime()
+                        n.started.getTime() > now.getTime() ||
+                        n.ended.getTime() > now.getTime()
                       ? ServiceDayTooltip.STATUS_NAMES[n.status]
                       : html`
-                        Resolved after <time datetime="${duration
-                          .iso}">${duration.human}</time>
+                        Resolved after <time datetime="${duration.iso}">
+                          ${duration.human}
+                        </time>
                       `}</p>
                   </li>
                 `;
