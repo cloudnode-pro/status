@@ -26,19 +26,21 @@ export class AppHeader extends Component {
     return html`
       <header
         role="banner"
-        class="group/header flex items-center justify-between border-b border-white/5 px-4 py-4 transition-colors has-open:bg-neutral-900 sm:px-0 sm:py-16"
+        class="group/header flex items-center justify-between gap-2 border-white/5 p-4 transition-colors has-open:bg-neutral-900 sm:px-0 sm:py-16"
       >
         <a
           href="${logoHref}"
           class="z-20 outline-offset-2 outline-blue-400 focus-visible:outline-2"
         >
-          <img src="https://wsrv.nl?url=${window.encodeURIComponent(
-            this.logoUrl,
-          )}" alt="${this.logoAlt}" class="h-8" />
+          <img
+            src="https://wsrv.nl?url=${window.encodeURIComponent(this.logoUrl)}"
+            alt="${this.logoAlt}"
+            class="max-h-8"
+          />
         </a>
         <nav
           aria-label="Desktop navigation"
-          class="flex items-center gap-2"
+          class="flex shrink-0 items-center gap-2"
         >
           ${this.links.map((link) =>
             html`
@@ -77,11 +79,11 @@ export class AppHeader extends Component {
           </button>
         </nav>
         <div
-          class="absolute inset-x-0 top-16 z-50 grid w-full grid-rows-[0fr] border-b border-b-white/5 bg-neutral-900 shadow-md transition-all transition-discrete ease-out open:grid-rows-[1fr] sm:hidden starting:open:grid-rows-[0fr]"
+          class="absolute inset-x-0 top-18 z-50 grid w-full grid-rows-[0fr] border-b border-b-white/5 bg-neutral-900 shadow-md transition-all transition-discrete ease-out open:grid-rows-[1fr] sm:hidden starting:open:grid-rows-[0fr]"
           popover
           id="menu"
         >
-          <nav aria-label="Mobile navigation" class="py-2 overflow-hidden">
+          <nav aria-label="Mobile navigation" class="pb-2 overflow-hidden">
             ${this.links.map((link) =>
               html`
                 <a

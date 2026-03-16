@@ -108,7 +108,7 @@ export class AppRoot extends Component {
             class="ring-white/5 ring-inset sm:rounded-2xl sm:bg-neutral-900 sm:ring-1"
           >
             ${new StatusOverview(this.site.mainStatus, this.services)}
-            <div class="p-6 pt-0! md:p-8">
+            <div class="p-4 pt-0! sm:p-6 md:p-8">
               ${this.page}
             </div>
           </main>
