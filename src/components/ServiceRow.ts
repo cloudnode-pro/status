@@ -210,19 +210,20 @@ export class ServiceRow extends Component {
           </div>
           ${this.service.description === null ? nothing : html`
             <div class="group/description relative">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="size-4 fill-neutral-400"
-                viewBox="0 0 256 256"
-                aria-hidden="true"
-              >
-                <path
-                  d="M108,84a16,16,0,1,1,16,16A16,16,0,0,1,108,84Zm128,44A108,108,0,1,1,128,20,108.12,108.12,0,0,1,236,128Zm-24,0a84,84,0,1,0-84,84A84.09,84.09,0,0,0,212,128Zm-72,36.68V132a20,20,0,0,0-20-20,12,12,0,0,0-4,23.32V168a20,20,0,0,0,20,20,12,12,0,0,0,4-23.32Z"
+              <button aria-hidden="true" class="focus:outline-none">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="size-4 fill-neutral-400"
+                  viewBox="0 0 256 256"
                 >
-                </path>
-              </svg>
+                  <path
+                    d="M108,84a16,16,0,1,1,16,16A16,16,0,0,1,108,84Zm128,44A108,108,0,1,1,128,20,108.12,108.12,0,0,1,236,128Zm-24,0a84,84,0,1,0-84,84A84.09,84.09,0,0,0,212,128Zm-72,36.68V132a20,20,0,0,0-20-20,12,12,0,0,0-4,23.32V168a20,20,0,0,0,20,20,12,12,0,0,0,4-23.32Z"
+                  >
+                  </path>
+                </svg>
+              </button>
               <div
-                class="prose prose-neutral prose-invert prose-sm top-full left-0 absolute z-50 block w-max rounded-lg bg-neutral-800 px-2 py-1 text-white font-medium shadow-md ring-1 ring-white/10 ring-inset not-group-hover/description:sr-only lg:-top-2 lg:left-full lg:mt-0 lg:translate-x-1 max-w-sm"
+                class="prose prose-neutral prose-invert prose-sm top-full left-0 absolute z-50 block w-max rounded-lg bg-neutral-800 px-2 py-1 text-white font-medium shadow-md ring-1 ring-white/10 ring-inset not-group-hover/description:not-group-focus-within/description:sr-only lg:-top-2 lg:left-full lg:mt-0 lg:translate-x-1 max-w-sm"
               >
                 ${unsafeHTML(
                   ServiceRow.MD.render(this.service.description),

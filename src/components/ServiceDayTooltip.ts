@@ -76,7 +76,7 @@ export class ServiceDayTooltip extends Component {
         <div
           class="grid grid-cols-3 items-center border-b border-white/10 px-3 py-2 leading-none"
         >
-          <span class="text-xs text-neutral-500">
+          <span class="text-xs text-neutral-500" aria-hidden="true">
             <time datetime="${days(30)}" class="sm:hidden">30 days ago</time>
             <time datetime="${days(
               60,
@@ -95,9 +95,10 @@ export class ServiceDayTooltip extends Component {
             day: "numeric",
             year: "numeric",
           })}</time>
-          <time datetime="${days(
-            0,
-          )}" class="text-right text-xs text-neutral-500"
+          <time
+            datetime="${days(0)}"
+            aria-hidden="true"
+            class="text-right text-xs text-neutral-500"
           >Today</time>
         </div>
         ${this.notices.length > 0
@@ -124,21 +125,22 @@ export class ServiceDayTooltip extends Component {
                       >${style.label}</span>
                     </div>
                     <a
-                      href="/notices/${n
-                        .id}"
+                      href="/notices/${n.id}"
                       class="font-medium text-white focus-visible:outline-none"
-                    >${n
-                      .name}<span
-                      class="absolute inset-0"
-                    ></span></a>
+                    >
+                      ${n.name}
+                      <span class="absolute inset-0"></span>
+                    </a>
 
                     <div class="mx-2 flex-1 border-t border-white/10"></div>
                     <p class="text-sm text-neutral-400">${n.ended === null ||
-                        n.started.getTime() > now.getTime()
+                        n.started.getTime() > now.getTime() ||
+                        n.ended.getTime() > now.getTime()
                       ? ServiceDayTooltip.STATUS_NAMES[n.status]
                       : html`
-                        Resolved after <time datetime="${duration
-                          .iso}">${duration.human}</time>
+                        Resolved after <time datetime="${duration.iso}">
+                          ${duration.human}
+                        </time>
                       `}</p>
                   </li>
                 `;

@@ -66,10 +66,22 @@ export class AppRoot extends Component {
   }
 
   private setupRouter() {
+    let initial = true;
     this.router
       .on("/", () => {
         this.home = true;
         this.page = new HomePage(this.api, this.services);
+      })
+      .on("*", () => {
+        this.router.navigate("/");
+      })
+      .hooks({
+        after: () => {
+          if (!initial) {
+            this.page.focus();
+          }
+          initial = false;
+        },
       })
       .resolve();
   }

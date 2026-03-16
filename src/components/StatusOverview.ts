@@ -1,4 +1,4 @@
-import { html } from "lit";
+import { html, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { Component } from "./Component";
 import { MainStatus } from "../models/MainStatus";
@@ -169,8 +169,12 @@ export class StatusOverview extends Component {
     const status = StatusOverview.parseMainStatus(this.mainStatus);
     const style = StatusOverview.STYLES[status];
     const message = typeof style.message === "function"
-      ? (this.resolvedService ? style.message(this.resolvedService) : "")
+      ? (this.resolvedService ? style.message(this.resolvedService) : null)
       : style.message;
+
+    if (message === null) {
+      return nothing;
+    }
 
     return html`
       <div class="flex items-center justify-center gap-2 p-6 md:px-8 md:py-10">
