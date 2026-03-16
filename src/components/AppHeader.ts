@@ -82,7 +82,7 @@ export class AppHeader extends Component {
             ${this.links.map((link) =>
               html`
                 <a
-                  class="block px-4 py-3 text-start font-medium text-white hover:bg-white/5"
+                  class="block px-4 py-3 text-start font-medium text-white -outline-offset-2 outline-blue-400 hover:bg-white/5 focus-visible:outline-2"
                   href="${link.type === "email"
                     ? `mailto:${link.value}`
                     : link.value}"
