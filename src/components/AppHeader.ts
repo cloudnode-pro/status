@@ -57,18 +57,21 @@ export class AppHeader extends Component {
             Get updates
           </button>
           <button
-              type="button"
-              class="rounded-lg p-3 text-white outline-offset-2 outline-blue-400 transition select-none group-has-open/header:rotate-180 focus-visible:outline-2 sm:hidden"
-              popovertarget="menu"
-              popovertargetaction="toggle"
+            type="button"
+            class="rounded-lg p-3 text-white outline-offset-2 outline-blue-400 transition select-none group-has-open/header:rotate-180 focus-visible:outline-2 sm:hidden"
+            popovertarget="menu"
+            popovertargetaction="toggle"
           >
             <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="size-4 fill-current"
-                viewBox="0 0 256 256"
-                aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              class="size-4 fill-current"
+              viewBox="0 0 256 256"
+              aria-hidden="true"
             >
-              <path d="M216.49,104.49l-80,80a12,12,0,0,1-17,0l-80-80a12,12,0,0,1,17-17L128,159l71.51-71.52a12,12,0,0,1,17,17Z"></path>
+              <path
+                d="M216.49,104.49l-80,80a12,12,0,0,1-17,0l-80-80a12,12,0,0,1,17-17L128,159l71.51-71.52a12,12,0,0,1,17,17Z"
+              >
+              </path>
             </svg>
             <span class="sr-only">Menu</span>
           </button>
