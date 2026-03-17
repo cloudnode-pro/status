@@ -11,6 +11,7 @@ import { Incident } from "../../models/Incident";
 import { Service } from "../../models/Service";
 import { NoticeUpdate } from "../../models/NoticeUpdate";
 import { Maintenance } from "../../models/Maintenance";
+import { ActiveNotices } from "../ActiveNotices";
 
 @customElement("home-page")
 export class HomePage extends Page {
@@ -24,7 +25,7 @@ export class HomePage extends Page {
   public services!: Services;
 
   @property({ type: Array })
-  public notices!: Notice[];
+  public notices: Notice[] | undefined;
 
   public constructor(api: InstatusApi, services: Promise<Services>) {
     super();
@@ -75,7 +76,7 @@ export class HomePage extends Page {
             u.id,
             new Date(u.started),
             Incident.parseStatus(u.status),
-            u.message.default,
+            typeof u.message === "string" ? u.message : u.message.default,
           )
         ),
         Incident.parseStatus(i.status),
@@ -103,7 +104,7 @@ export class HomePage extends Page {
             u.id,
             new Date(u.started),
             Maintenance.parseStatus(u.status),
-            u.message.default,
+            typeof u.message === "string" ? u.message : u.message.default,
           )
         ),
         Maintenance.parseStatus(m.status),
@@ -126,6 +127,7 @@ export class HomePage extends Page {
 
   public override render() {
     return html`
+      ${new ActiveNotices(this.notices ?? [])}
       <div class="flex flex-col">
         ${this.rows}
       </div>
