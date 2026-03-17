@@ -5,6 +5,8 @@ import { NoticeUpdate } from "./NoticeUpdate";
 import { ServiceStatus } from "./ServiceStatus";
 
 export class Maintenance extends Notice {
+  public override readonly ended: Date;
+
   public constructor(
     id: string,
     name: string,
@@ -24,6 +26,7 @@ export class Maintenance extends Notice {
       end,
       ServiceStatus.UNDER_MAINTENANCE,
     );
+    this.ended = end;
   }
 
   public static parseStatus(status: string): NoticeStatus {

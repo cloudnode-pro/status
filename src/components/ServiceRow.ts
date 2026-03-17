@@ -7,51 +7,12 @@ import { Service } from "../models/Service";
 import { ServiceStatus } from "../models/ServiceStatus";
 import { Notice } from "../models/Notice";
 import { ServiceDayTooltip } from "./ServiceDayTooltip";
+import { Time } from "../Time";
+import { EnumMappings } from "../EnumMappings";
 
 @customElement("service-row")
 export class ServiceRow extends Component {
   private static readonly MD = markdownit();
-
-  public static readonly STATUS_STYLES: Record<
-    ServiceStatus,
-    { color: string; bar: string; label: string; icon: string }
-  > = {
-    [ServiceStatus.OPERATIONAL]: {
-      color: "fill-emerald-400",
-      bar: "bg-emerald-500",
-      label: "Operational",
-      icon:
-        `<path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm45.66,85.66-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32Z"></path>`,
-    },
-    [ServiceStatus.UNDER_MAINTENANCE]: {
-      color: "fill-blue-400",
-      bar: "bg-blue-400",
-      label: "Under maintenance",
-      icon:
-        `<path d="M128 24a104 104 0 1 0 104 104A104.13 104.13 0 0 0 128 24m14.052 54.734a34.2 34.2 0 0 1 9.427 1.006 3.79 3.79 0 0 1 1.865 6.25l-17.76 19.265 2.682 12.485 12.484 2.677 19.266-17.782a3.79 3.79 0 0 1 6.25 1.865 34.4 34.4 0 0 1 1.02 8.333 34.122 34.122 0 0 1-47.833 31.282l-24.672 28.536a4 4 0 0 1-.187.203 15.168 15.168 0 0 1-21.448-21.453q.098-.095.203-.182l28.542-24.667a34.155 34.155 0 0 1 30.161-47.818" />`,
-    },
-    [ServiceStatus.DEGRADED_PERFORMANCE]: {
-      color: "fill-amber-400",
-      bar: "bg-amber-400",
-      label: "Degraded performance",
-      icon:
-        `<path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm-8,56a8,8,0,0,1,16,0v56a8,8,0,0,1-16,0Zm8,104a12,12,0,1,1,12-12A12,12,0,0,1,128,184Z"></path>`,
-    },
-    [ServiceStatus.PARTIAL_OUTAGE]: {
-      color: "fill-orange-400",
-      bar: "bg-orange-400",
-      label: "Partial outage",
-      icon:
-        `<path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm-8,56a8,8,0,0,1,16,0v56a8,8,0,0,1-16,0Zm8,104a12,12,0,1,1,12-12A12,12,0,0,1,128,184Z"></path>`,
-    },
-    [ServiceStatus.MAJOR_OUTAGE]: {
-      color: "fill-red-400",
-      bar: "bg-red-400",
-      label: "Major outage",
-      icon:
-        `<path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm37.66,130.34a8,8,0,0,1-11.32,11.32L128,139.31l-26.34,26.35a8,8,0,0,1-11.32-11.32L116.69,128,90.34,101.66a8,8,0,0,1,11.32-11.32L128,116.69l26.34-26.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>`,
-    },
-  };
 
   private static readonly WEIGHTS: Record<ServiceStatus, number> = {
     [ServiceStatus.OPERATIONAL]: 0,
@@ -74,12 +35,11 @@ export class ServiceRow extends Component {
   }
 
   private static bar(
-    day: Date,
+    day: Time.Day,
     notices: Notice[],
     started: Date | null,
   ): TemplateResult {
-    const tomorrow = new Date(day);
-    tomorrow.setDate(tomorrow.getDate() + 1);
+    const tomorrow = day.next();
 
     const presentNotices = notices.filter((n) =>
       n.started.getTime() < Date.now()
@@ -109,8 +69,8 @@ export class ServiceRow extends Component {
           class="group/bar flex"
         >
           <div
-            class="size-full ${ServiceRow
-              .STATUS_STYLES[ServiceStatus.OPERATIONAL]
+            class="size-full ${EnumMappings
+              .SERVICE_STATUS_STYLES[ServiceStatus.OPERATIONAL]
               .bar} group-first/bar:rounded-l-sm group-nth-61/bar:rounded-l-sm sm:group-nth-61/bar:rounded-l-none sm:group-nth-31/bar:rounded-l-sm md:group-nth-31/bar:rounded-l-none group-last/bar:rounded-r-sm group-hover/bar:brightness-70"
           >
           </div>
@@ -125,7 +85,7 @@ export class ServiceRow extends Component {
         class="group/bar flex outline-offset-2 outline-blue-400 has-focus-visible:z-10 has-focus-visible:outline-2"
       >
         <div
-          class="size-full ${ServiceRow.STATUS_STYLES[worst.impact]
+          class="size-full ${EnumMappings.SERVICE_STATUS_STYLES[worst.impact]
             .bar} group-first/bar:rounded-l-sm group-nth-61/bar:rounded-l-sm sm:group-nth-61/bar:rounded-l-none sm:group-nth-31/bar:rounded-l-sm md:group-nth-31/bar:rounded-l-none group-last/bar:rounded-r-sm group-hover/bar:brightness-70 group-has-focus-visible/bar:brightness-70"
         >
         </div>
@@ -169,20 +129,15 @@ export class ServiceRow extends Component {
     return 1 - downtime / totalMs;
   }
 
-  protected noticesForDay(day: Date): Notice[] {
-    const dayStart = new Date(day);
-    dayStart.setHours(0, 0, 0, 0);
-    const nextDayStart = new Date(dayStart);
-    nextDayStart.setDate(dayStart.getDate() + 1);
-
+  protected noticesForDay(day: Time.Day): Notice[] {
     return this.notices.filter((n) =>
-      n.started.getTime() < nextDayStart.getTime() &&
-      (n.ended === null || n.ended.getTime() >= dayStart.getTime())
+      n.started.getTime() < day.next().getTime() &&
+      (n.ended === null || n.ended.getTime() >= day.getTime())
     );
   }
 
   protected renderIcon(): TemplateResult {
-    const style = ServiceRow.STATUS_STYLES[this.service.status];
+    const style = EnumMappings.SERVICE_STATUS_STYLES[this.service.status];
     return html`
       <span>
         <svg
@@ -209,7 +164,7 @@ export class ServiceRow extends Component {
             <p class="font-medium text-white">${this.service.name}</p>
           </div>
           ${this.service.description === null ? nothing : html`
-            <div class="group/description relative">
+            <div class="group/description relative flex items-center">
               <button aria-hidden="true" class="focus:outline-none">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -258,10 +213,9 @@ export class ServiceRow extends Component {
   }
 
   protected renderBars(): TemplateResult {
-    const now = new Date();
+    const now = Time.Day.today();
     const bars = Array.from({ length: 90 }, (_, i) => {
-      const day = new Date(now.getTime() - (89 - i) * 86400000);
-      day.setHours(0, 0, 0, 0);
+      const day = now.subtract(89 - i);
       return ServiceRow.bar(day, this.noticesForDay(day), this.service.started);
     });
 

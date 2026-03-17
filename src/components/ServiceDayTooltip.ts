@@ -3,9 +3,9 @@ import { customElement, property, state } from "lit/decorators.js";
 import { styleMap } from "lit/directives/style-map.js";
 import { Component } from "./Component";
 import { Notice } from "../models/Notice";
-import { ServiceRow } from "./ServiceRow";
-import { NoticeStatus } from "../models/NoticeStatus";
 import { ServiceStatus } from "../models/ServiceStatus";
+import { Time } from "../Time";
+import { EnumMappings } from "../EnumMappings";
 
 @customElement("service-day-tooltip")
 export class ServiceDayTooltip extends Component {
@@ -13,22 +13,12 @@ export class ServiceDayTooltip extends Component {
   public notices: Notice[];
 
   @property({ type: Object })
-  public day: Date;
+  public day: Time.Day;
 
   @state()
   public started: Date | null;
 
-  private static readonly STATUS_NAMES: Record<NoticeStatus, string> = {
-    [NoticeStatus.INCIDENT_IDENTIFIED]: "Identified",
-    [NoticeStatus.INCIDENT_INVESTIGATING]: "Investigating",
-    [NoticeStatus.INCIDENT_MONITORING]: "Monitoring",
-    [NoticeStatus.INCIDENT_RESOLVED]: "Resolved",
-    [NoticeStatus.MAINTENANCE_NOT_STARTED_YET]: "Planned",
-    [NoticeStatus.MAINTENANCE_IN_PROGRESS]: "In progress",
-    [NoticeStatus.MAINTENANCE_COMPLETED]: "Completed",
-  };
-
-  public constructor(notices: Notice[], day: Date, started: Date | null) {
+  public constructor(notices: Notice[], day: Time.Day, started: Date | null) {
     super();
     this.notices = notices.sort((a, b) =>
       a.started.getTime() - b.started.getTime()
@@ -37,37 +27,11 @@ export class ServiceDayTooltip extends Component {
     this.started = started;
   }
 
-  private static duration(ms: number): { iso: string; human: string } {
-    const totalSeconds = Math.floor(ms / 1000);
-    const days = Math.floor(totalSeconds / 86400);
-    const hours = Math.floor((totalSeconds % 86400) / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-
-    const iso = "P" +
-      (days ? `${days}D` : "") +
-      (hours || minutes ? "T" : "") +
-      (hours ? `${hours}H` : "") +
-      (minutes ? `${minutes}M` : "");
-
-    const parts = [
-      days && `${days} ${days === 1 ? "day" : "days"}`,
-      hours && `${hours} ${hours === 1 ? "hour" : "hours"}`,
-      minutes && `${minutes} ${minutes === 1 ? "minute" : "minutes"}`,
-    ].filter(Boolean) as string[];
-
-    const human = parts.length > 1
-      ? parts.slice(0, -1).join(", ") + " and " + parts.at(-1)
-      : parts[0] ?? "0 minutes";
-
-    return { iso, human };
-  }
-
   public override render() {
     const now = new Date();
     const days = (n: number) =>
       new Date(now.getTime() - n * 86400000).toISOString().split("T")[0];
-    const tomorrow = new Date(this.day);
-    tomorrow.setDate(tomorrow.getDate() + 1);
+    const tomorrow = this.day.next();
 
     return html`
       <div
@@ -90,11 +54,7 @@ export class ServiceDayTooltip extends Component {
           <time
             datetime="${this.day.toISOString().split("T")[0]}"
             class="text-center text-sm font-medium text-neutral-300"
-          >${this.day.toLocaleString(undefined, {
-            month: "long",
-            day: "numeric",
-            year: "numeric",
-          })}</time>
+          >${this.day.toString()}</time>
           <time
             datetime="${days(0)}"
             aria-hidden="true"
@@ -105,8 +65,8 @@ export class ServiceDayTooltip extends Component {
           ? html`
             <ul class="px-3 py-1">
               ${this.notices.map((n) => {
-                const style = ServiceRow.STATUS_STYLES[n.impact];
-                const duration = ServiceDayTooltip.duration(n.duration());
+                const style = EnumMappings.SERVICE_STATUS_STYLES[n.impact];
+                const duration = new Time.Duration(n.duration());
                 return html`
                   <li
                     class="relative flex items-center gap-2 py-2 rounded-lg has-focus-visible:outline-2 outline-offset-2 outline-blue-400"
@@ -136,10 +96,11 @@ export class ServiceDayTooltip extends Component {
                     <p class="text-sm text-neutral-400">${n.ended === null ||
                         n.started.getTime() > now.getTime() ||
                         n.ended.getTime() > now.getTime()
-                      ? ServiceDayTooltip.STATUS_NAMES[n.status]
+                      ? EnumMappings.NOTICE_STATUS_NAMES[n.status]
                       : html`
-                        Resolved after <time datetime="${duration.iso}">
-                          ${duration.human}
+                        Resolved after <time datetime="${duration
+                          .toISOString()}">
+                          ${duration.toString()}
                         </time>
                       `}</p>
                   </li>
@@ -155,7 +116,8 @@ export class ServiceDayTooltip extends Component {
                 aria-hidden="true"
                 class="size-5 ${this.started === null ||
                     this.started.getTime() < tomorrow.getTime()
-                  ? ServiceRow.STATUS_STYLES[ServiceStatus.OPERATIONAL].color
+                  ? EnumMappings
+                    .SERVICE_STATUS_STYLES[ServiceStatus.OPERATIONAL].color
                   : "fill-neutral-400"}"
               >
                 <path
@@ -168,7 +130,8 @@ export class ServiceDayTooltip extends Component {
               </svg>
               <p class="font-medium text-white">${this.started === null ||
                   this.started.getTime() < tomorrow.getTime()
-                ? ServiceRow.STATUS_STYLES[ServiceStatus.OPERATIONAL].label
+                ? EnumMappings.SERVICE_STATUS_STYLES[ServiceStatus.OPERATIONAL]
+                  .label
                 : "Not monitored"}</p>
             </div>
           `}
@@ -195,7 +158,7 @@ export class ServiceDayTooltip extends Component {
                     monitorStart,
                   ),
                   end: Math.max(n.started.getTime(), this.day.getTime()) +
-                    n.duration(this.day),
+                    n.duration(this.day.date),
                   impact: n.impact,
                 }))
                 .filter((n) => n.start < n.end);
@@ -218,8 +181,8 @@ export class ServiceDayTooltip extends Component {
               return html`
                 ${greenSegments.map((s) =>
                   html`
-                    <div class="absolute h-full rounded-full ${ServiceRow
-                      .STATUS_STYLES[ServiceStatus.OPERATIONAL]
+                    <div class="absolute h-full rounded-full ${EnumMappings
+                      .SERVICE_STATUS_STYLES[ServiceStatus.OPERATIONAL]
                       .bar}" style="${styleMap({
                         left: `${toPercent(s.start)}%`,
                         width: `${toWidth(s.start, s.end)}%`,
@@ -227,14 +190,14 @@ export class ServiceDayTooltip extends Component {
                   `
                 )} ${this.notices.map((n) =>
                   html`
-                    <div class="absolute h-full rounded-full ${ServiceRow
-                      .STATUS_STYLES[n.impact].bar}" style="${styleMap({
+                    <div class="absolute h-full rounded-full ${EnumMappings
+                      .SERVICE_STATUS_STYLES[n.impact].bar}" style="${styleMap({
                         left: `${
                           toPercent(
                             Math.max(n.started.getTime(), this.day.getTime()),
                           )
                         }%`,
-                        width: `${n.duration(this.day) / 864000}%`,
+                        width: `${n.duration(this.day.date) / 864000}%`,
                         zIndex: n.impact,
                       })}"></div>
                   `
