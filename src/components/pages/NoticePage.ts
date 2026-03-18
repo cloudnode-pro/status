@@ -88,8 +88,30 @@ export class NoticePage extends Page {
     const impactBadge = NoticePage.IMPACT_BADGES[this.notice.impact];
 
     return html`
+      <a
+        href="/"
+        class="sm:hidden flex gap-2 mb-4 text-neutral-400 text-sm items-center font-medium"
+      >
+        <span class="p-1 bg-white/10 rounded-lg">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="size-4 fill-current"
+            viewBox="0 0 256 256"
+            aria-hidden="true"
+          >
+            <path
+              d="M228,128a12,12,0,0,1-12,12H69l51.52,51.51a12,12,0,0,1-17,17l-72-72a12,12,0,0,1,0-17l72-72a12,12,0,0,1,17,17L69,116H216A12,12,0,0,1,228,128Z"
+            >
+            </path>
+          </svg>
+        </span>
+        Back to overview
+      </a>
       <div class="flex items-center gap-4">
-        <a href="/" class="text-neutral-400 transition-colors hover:text-white">
+        <a
+          href="/"
+          class="text-neutral-400 transition-colors hover:text-white hidden sm:block"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="size-7 fill-current"
@@ -105,14 +127,14 @@ export class NoticePage extends Page {
         </a>
         <h3 class="text-2xl font-medium text-white">${this.notice.name}</h3>
       </div>
-      <div class="mt-2 flex items-center gap-2">
+      <div class="mt-2 flex flex-wrap items-center gap-2">
         <p
-          class="text-sm rounded-full px-2 py-0.5 ring-1 ring-inset ${impactBadge
+          class="w-max text-sm rounded-full px-2 py-0.5 ring-1 ring-inset ${impactBadge
             .style}"
         >
           ${impactBadge.label}
         </p>
-        <p class="text-sm leading-loose text-neutral-400">
+        <p class="text-sm text-neutral-400">
           ${this.notice instanceof Maintenance && end !== null
             ? html`
               Scheduled for
@@ -138,10 +160,10 @@ export class NoticePage extends Page {
             `}
         </p>
       </div>
-      <dl class="mt-4 flex gap-2 items-center">
+      <dl class="mt-4 flex gap-2 items-center flex-wrap">
         <dt class="font-medium text-neutral-400">Affected services</dt>
         <dd>
-          <ul class="flex gap-1">
+          <ul class="flex gap-1 flex-wrap">
             ${this.notice.components.map((c) =>
               html`
                 <li class="text-sm text-neutral-300 rounded-full bg-white/10 px-2 py-0.5">
@@ -166,7 +188,9 @@ export class NoticePage extends Page {
             `
             : nothing}
         </div>
-        ${new UpdatesFeed(this.notice.updates)}
+        <div class="pl-1">
+          ${new UpdatesFeed(this.notice.updates)}
+        </div>
       </div>
     `;
   }
