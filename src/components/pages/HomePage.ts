@@ -88,7 +88,7 @@ export class HomePage extends Page {
   }
 
   public override render() {
-    this.pageTitle(null);
+    Page.title(null);
     return html`
       ${new ActiveNotices(this.notices ?? [])}
       <div class="flex flex-col">

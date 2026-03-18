@@ -14,7 +14,7 @@ export abstract class Page extends Component {
     });
   }
 
-  protected pageTitle(title: string | null) {
+  protected static title(title: string | null) {
     document.title = title === null ? CONFIG.NAME : `${title} - ${CONFIG.NAME}`;
   }
 }

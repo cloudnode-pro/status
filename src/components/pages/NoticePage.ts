@@ -1,10 +1,10 @@
+import { html, nothing } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { Page } from "./Page";
 import { InstatusApi } from "../../api/InstatusApi";
 import { Notice } from "../../models/Notice";
 import { Incident } from "../../models/Incident";
 import { Maintenance } from "../../models/Maintenance";
-import { html, nothing } from "lit";
 import { ServiceStatus } from "../../models/ServiceStatus";
 import { Time } from "../../Time";
 import { UpdatesFeed } from "../UpdatesFeed";
@@ -78,7 +78,7 @@ export class NoticePage extends Page {
       return nothing;
     }
 
-    this.pageTitle(this.notice.name);
+    Page.title(this.notice.name);
 
     const nbsp = "\u00A0";
     const start = new Time.DateTime(this.notice.started);
@@ -148,17 +148,22 @@ export class NoticePage extends Page {
               >${end.getDay().is(start.getDay())
                 ? end.toTimeString()
                 : end.toString().replace(" ", nbsp)}
-              </time> (<time datetime="${duration.toISOString()}">${duration
-                .toString()}</time>).
+              </time> (
+              <time datetime="${duration.toISOString()}">${duration
+                .toString()}
+              </time>).
             `
             : html`
               Occurred on
               <time datetime="${start.toISOString()}">${start.toString()
-                .replace(" ", nbsp)}</time>. ${this.notice.ended === null
+                .replace(" ", nbsp)}
+              </time>. ${this.notice.ended === null
                 ? "Ongoing for"
-                : "Resolved after"} <time
+                : "Resolved after"}
+              <time
                 datetime="${duration.toISOString()}"
-              >${duration.toString()}</time>.
+              >${duration.toString()}
+              </time>.
             `}
         </p>
       </div>
