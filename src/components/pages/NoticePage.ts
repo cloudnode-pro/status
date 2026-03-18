@@ -78,6 +78,8 @@ export class NoticePage extends Page {
       return nothing;
     }
 
+    this.pageTitle(this.notice.name);
+
     const nbsp = "\u00A0";
     const start = new Time.DateTime(this.notice.started);
     const end = this.notice.ended === null

@@ -8,8 +8,6 @@ import { Services } from "../../models/Services";
 import { InstatusApi } from "../../api/InstatusApi";
 import { Notice } from "../../models/Notice";
 import { Incident } from "../../models/Incident";
-import { Service } from "../../models/Service";
-import { NoticeUpdate } from "../../models/NoticeUpdate";
 import { Maintenance } from "../../models/Maintenance";
 import { ActiveNotices } from "../ActiveNotices";
 
@@ -90,6 +88,7 @@ export class HomePage extends Page {
   }
 
   public override render() {
+    this.pageTitle(null);
     return html`
       ${new ActiveNotices(this.notices ?? [])}
       <div class="flex flex-col">
