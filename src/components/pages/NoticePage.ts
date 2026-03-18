@@ -90,7 +90,7 @@ export class NoticePage extends Page {
     return html`
       <a
         href="/"
-        class="sm:hidden flex gap-2 mb-4 text-neutral-400 text-sm items-center font-medium"
+        class="sm:hidden inline-flex gap-2 mb-4 text-neutral-400 text-sm items-center font-medium focus-visible:outline-2 outline-blue-400 outline-offset-2 rounded-md"
       >
         <span class="p-1 bg-white/10 rounded-lg">
           <svg
@@ -110,7 +110,7 @@ export class NoticePage extends Page {
       <div class="flex items-center gap-4">
         <a
           href="/"
-          class="text-neutral-400 transition-colors hover:text-white hidden sm:block"
+          class="rounded-full text-neutral-400 transition-colors hover:text-white hidden focus-visible:outline-2 outline-blue-400 sm:block"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
