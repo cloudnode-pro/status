@@ -21,7 +21,7 @@ export class AppHeader extends Component {
   public links: SiteLink[] = [];
 
   public override render() {
-    const logoHref = this.home ? this.websiteUrl : "/";
+    const logoHref = this.home ? this.websiteUrl ?? "/" : "/";
 
     return html`
       <header

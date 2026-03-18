@@ -3,6 +3,7 @@ import { NoticeStatus } from "./NoticeStatus";
 import { Notice } from "./Notice";
 import { NoticeUpdate } from "./NoticeUpdate";
 import { ServiceStatus } from "./ServiceStatus";
+import { Maintenance as MaintenanceAPI } from "../api/Maintenance";
 
 export class Maintenance extends Notice {
   public override readonly ended: Date;
@@ -40,5 +41,31 @@ export class Maintenance extends Notice {
       default:
         throw new Error(`Unknown maintenance status: ${status}`);
     }
+  }
+
+  public static fromAPI(maintenance: MaintenanceAPI): Maintenance {
+    return new Maintenance(
+      maintenance.id,
+      typeof maintenance.name === "string"
+        ? maintenance.name
+        : maintenance.name.default,
+      maintenance.components,
+      maintenance.updates.map((u) =>
+        new NoticeUpdate(
+          u.id,
+          new Date(u.started),
+          Maintenance.parseStatus(u.status),
+          typeof u.message === "string" ? u.message : u.message.default,
+        )
+      ),
+      Maintenance.parseStatus(maintenance.status),
+      new Date(maintenance.start),
+      new Date(
+        maintenance.resolved === null
+          ? new Date(maintenance.start).getTime() +
+            (maintenance.duration * 60000)
+          : maintenance.resolved,
+      ),
+    );
   }
 }

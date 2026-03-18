@@ -58,7 +58,8 @@ export class InstatusApi {
     if (!res.ok) {
       throw new Error(`Failed to fetch incident: ${res.status}`);
     }
-    return res.json();
+    const data: { incident: Incident } = await res.json();
+    return data.incident;
   }
 
   public async getMaintenance(id: string): Promise<Maintenance> {
@@ -66,6 +67,7 @@ export class InstatusApi {
     if (!res.ok) {
       throw new Error(`Failed to fetch maintenance: ${res.status}`);
     }
-    return res.json();
+    const data: { maintenance: Maintenance } = await res.json();
+    return data.maintenance;
   }
 }

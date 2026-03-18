@@ -28,11 +28,11 @@ export class UpdatesFeed extends Component {
           html`
             <li class="group/update flex">
               <div class="relative group-only/update:hidden">
-                <div class="absolute h-full w-px bg-white/5 group-last/update:h-4"></div>
+                <div class="absolute h-full w-px bg-white/10 group-last/update:h-4"></div>
                 <div
-                  class="relative mt-4 flex size-6 -translate-x-1/2 items-center justify-center bg-neutral-900 group-first/update:mt-0"
+                  class="relative mt-4 flex size-6 -translate-x-1/2 items-center justify-center bg-neutral-950 group-first/update:mt-0 sm:bg-neutral-900"
                 >
-                  <div class="size-1.5 rounded-full bg-white/5 ring-1 ring-white/10"></div>
+                  <div class="size-1.5 rounded-full bg-white/10 ring-1 ring-white/15"></div>
                 </div>
               </div>
               <div class="py-4 group-first/update:pt-0 group-last/update:pb-0">

@@ -15,6 +15,7 @@ import { HomePage } from "./pages/HomePage";
 import { Services } from "../models/Services";
 import { Service } from "../models/Service";
 import { ServiceGroup } from "../models/ServiceGroup";
+import { NoticePage } from "./pages/NoticePage";
 
 @customElement("app-root")
 export class AppRoot extends Component {
@@ -26,9 +27,6 @@ export class AppRoot extends Component {
 
   @state()
   private page!: Page;
-
-  @state()
-  private home!: boolean;
 
   private services!: Promise<Services>;
 
@@ -69,8 +67,13 @@ export class AppRoot extends Component {
     let initial = true;
     this.router
       .on("/", () => {
-        this.home = true;
         this.page = new HomePage(this.api, this.services);
+      })
+      .on("/incidents/:id", (match) => {
+        this.page = new NoticePage("incidents", match!.data!.id, this.api);
+      })
+      .on("/maintenance/:id", (match) => {
+        this.page = new NoticePage("maintenance", match!.data!.id, this.api);
       })
       .on("*", () => {
         this.router.navigate("/");
@@ -101,7 +104,7 @@ export class AppRoot extends Component {
           .logoAlt="${this.site.name.default}"
           .websiteUrl="${this.site.websiteUrl}"
           .links="${this.site.links.header}"
-          .home="${this.home}"
+          .home="${this.page instanceof HomePage}"
         ></app-header>
         <div class="flex-1">
           <main

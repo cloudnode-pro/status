@@ -6,8 +6,6 @@ import { InstatusApi } from "./api/InstatusApi";
 
 injectSpeedInsights();
 
-document.title = CONFIG.NAME;
-
 const api = new InstatusApi(CONFIG.ID);
 const root = new AppRoot(api);
 
