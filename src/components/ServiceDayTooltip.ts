@@ -6,6 +6,7 @@ import { Notice } from "../models/Notice";
 import { ServiceStatus } from "../models/ServiceStatus";
 import { Time } from "../Time";
 import { EnumMappings } from "../EnumMappings";
+import { Maintenance } from "../models/Maintenance";
 
 @customElement("service-day-tooltip")
 export class ServiceDayTooltip extends Component {
@@ -85,7 +86,9 @@ export class ServiceDayTooltip extends Component {
                       >${style.label}</span>
                     </div>
                     <a
-                      href="/notices/${n.id}"
+                      href="/${n instanceof Maintenance
+                        ? "maintenance"
+                        : "incidents"}/${n.id}"
                       class="font-medium text-white focus-visible:outline-none"
                     >
                       ${n.name}
@@ -98,7 +101,10 @@ export class ServiceDayTooltip extends Component {
                         n.ended.getTime() > now.getTime()
                       ? EnumMappings.NOTICE_STATUS_NAMES[n.status]
                       : html`
-                        Resolved after <time datetime="${duration
+                        ${EnumMappings
+                          .NOTICE_STATUS_NAMES[
+                            n.status
+                          ]} after <time datetime="${duration
                           .toISOString()}">
                           ${duration.toString()}
                         </time>

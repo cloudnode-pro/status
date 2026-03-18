@@ -10,7 +10,7 @@ import { Maintenance } from "../models/Maintenance";
 @customElement("notice-overview")
 export class NoticeOverview extends Component {
   @state()
-  private notice: Notice;
+  private readonly notice: Notice;
 
   public constructor(notice: Notice) {
     super();
@@ -24,13 +24,17 @@ export class NoticeOverview extends Component {
       : new Time.DateTime(this.notice.ended);
     const duration = new Time.Duration(this.notice.duration());
 
+    const nbsp = "\u00A0";
+
     return html`
       <div class="relative">
         <div class="flex items-center justify-between mb-2">
           <div>
             <div class="flex flex-row-reverse items-center justify-end gap-3">
               <a
-                href="/notices/${this.notice.id}"
+                href="/${this.notice instanceof Maintenance
+                  ? "maintenance"
+                  : "incidents"}/${this.notice.id}"
                 class="text-lg font-medium text-white"
               >
                 ${this.notice.name}<span class="absolute inset-0"></span>
@@ -67,19 +71,17 @@ export class NoticeOverview extends Component {
               ? html`
                 <p class="text-sm leading-loose text-neutral-400">
                   Scheduled for
-                  <time datetime="${start.toISOString()}">${start
-                    .toString()}
-                  </time>
-                  &nbsp;–&nbsp;<time
+                  <time datetime="${start.toISOString()}">${start.toString()
+                    .replace(" ", nbsp)}</time>${nbsp}–${nbsp}<time
                     datetime="${end.toISOString()}"
                   >${end.getDay().is(start.getDay())
                     ? end.toTimeString()
-                    : end.toString()}
-                  </time>
-                  <span
+                    : end.toString().replace(" ", nbsp)}</time>
+                  <time
                     class="rounded-full bg-white/10 px-2 py-0.5 ring-1 ring-white/10 ring-inset"
-                  ><time datetime="${duration.toISOString()}">${duration
-                    .toString()}</time></span>
+                    datetime="${duration.toISOString()}"
+                  >${duration
+                    .toString()}</time>
                 </p>
               `
               : nothing}

@@ -67,24 +67,7 @@ export class HomePage extends Page {
     this.notices = [];
 
     for (const i of incidents) {
-      const incident = new Incident(
-        i.id,
-        typeof i.name === "string" ? i.name : i.name.default,
-        i.components,
-        i.updates.map((u) =>
-          new NoticeUpdate(
-            u.id,
-            new Date(u.started),
-            Incident.parseStatus(u.status),
-            typeof u.message === "string" ? u.message : u.message.default,
-          )
-        ),
-        Incident.parseStatus(i.status),
-        new Date(i.started),
-        i.resolved === null ? null : new Date(i.resolved),
-        Service.parseStatus(i.impact),
-      );
-
+      const incident = Incident.fromAPI(i);
       this.notices.push(incident);
 
       for (const affected of i.components) {
@@ -95,26 +78,7 @@ export class HomePage extends Page {
     }
 
     for (const m of maintenances) {
-      const maintenance = new Maintenance(
-        m.id,
-        typeof m.name === "string" ? m.name : m.name.default,
-        m.components,
-        m.updates.map((u) =>
-          new NoticeUpdate(
-            u.id,
-            new Date(u.started),
-            Maintenance.parseStatus(u.status),
-            typeof u.message === "string" ? u.message : u.message.default,
-          )
-        ),
-        Maintenance.parseStatus(m.status),
-        new Date(m.start),
-        new Date(
-          m.resolved === null
-            ? new Date(m.start).getTime() + (m.duration * 60000)
-            : m.resolved,
-        ),
-      );
+      const maintenance = Maintenance.fromAPI(m);
       this.notices.push(maintenance);
 
       for (const affected of m.components) {
