@@ -8,11 +8,22 @@ export class ServiceGroup extends Service {
   public constructor(
     id: string,
     name: string,
+    description: string | null,
     children: Service[],
     showUptime: boolean,
     isCollapsed: boolean,
   ) {
-    super(id, name, Services.mostSevere(children).status, [], showUptime);
+    super(
+      id,
+      name,
+      description,
+      Services.mostSevere(children).status,
+      [],
+      Array.from(children).sort((a, b) =>
+        (a.started?.getTime() ?? 0) - (b.started?.getTime() ?? 0)
+      )[0]?.started,
+      showUptime,
+    );
     this.children = children;
     this.isCollapsed = isCollapsed;
   }

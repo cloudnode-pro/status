@@ -1,9 +1,7 @@
-export interface SiteComponent {
-  id: string;
-  name: { default: string };
+import { BaseComponent } from "./BaseComponent";
+
+export interface SiteComponent extends BaseComponent {
   description: { default: string };
-  status: string;
-  order: number;
   showUptime: boolean;
   isParent: boolean;
   isCollapsed: boolean;

@@ -3,11 +3,32 @@ import { customElement, property } from "lit/decorators.js";
 import { ServiceRow } from "./ServiceRow";
 import { ServiceGroup } from "../models/ServiceGroup";
 import { ServiceStatus } from "../models/ServiceStatus";
+import { Notice } from "../models/Notice";
 
 @customElement("service-group-row")
 export class ServiceGroupRow extends ServiceRow {
   @property({ type: Object })
-  public override service!: ServiceGroup;
+  public override service: ServiceGroup;
+
+  private readonly rows: ServiceRow[];
+
+  public constructor(service: ServiceGroup, notices: Notice[]) {
+    super(service, notices);
+    this.service = service;
+    this.rows = this.service.children.map((child) => {
+      const row = new ServiceRow(child, []);
+      row.classList.add("block", "mt-4");
+      return row;
+    });
+  }
+
+  public getRow(id: string): ServiceRow | null {
+    return this.rows.find((row) => row.service.id === id) ?? null;
+  }
+
+  public override uptime(days: number): number {
+    return this.rows.reduce((t, r) => t + r.uptime(days), 0) / this.rows.length;
+  }
 
   protected override renderIcon(): TemplateResult {
     return html`
@@ -15,6 +36,7 @@ export class ServiceGroupRow extends ServiceRow {
         xmlns="http://www.w3.org/2000/svg"
         class="size-5 fill-neutral-300 transition-transform ease-out group-open/services:rotate-90"
         viewBox="0 0 256 256"
+        aria-hidden="true"
       >
         <path
           d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm29.66,109.66-40,40a8,8,0,0,1-11.32-11.32L140.69,128,106.34,93.66a8,8,0,0,1,11.32-11.32l40,40A8,8,0,0,1,157.66,133.66Z"
@@ -33,18 +55,15 @@ export class ServiceGroupRow extends ServiceRow {
             c.status !== ServiceStatus.OPERATIONAL
           )}"
       >
-        <summary class="block cursor-pointer">
+        <summary
+          class="block cursor-pointer rounded-md outline-offset-4 outline-blue-400 focus-visible:outline-2"
+        >
           ${this.renderTop()}
           <div class="group-open/services:hidden">
             ${this.renderBars()} ${this.renderBottom()}
           </div>
         </summary>
-        ${this.service.children.map((child) => {
-          const row = new ServiceRow();
-          row.service = child;
-          row.classList.add("block", "mt-4");
-          return row;
-        })}
+        ${this.rows}
       </details>
     `;
   }

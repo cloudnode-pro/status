@@ -15,6 +15,7 @@ import { HomePage } from "./pages/HomePage";
 import { Services } from "../models/Services";
 import { Service } from "../models/Service";
 import { ServiceGroup } from "../models/ServiceGroup";
+import { NoticePage } from "./pages/NoticePage";
 
 @customElement("app-root")
 export class AppRoot extends Component {
@@ -26,9 +27,6 @@ export class AppRoot extends Component {
 
   @state()
   private page!: Page;
-
-  @state()
-  private home!: boolean;
 
   private services!: Promise<Services>;
 
@@ -66,10 +64,27 @@ export class AppRoot extends Component {
   }
 
   private setupRouter() {
+    let initial = true;
     this.router
       .on("/", () => {
-        this.home = true;
-        this.page = new HomePage(this.services);
+        this.page = new HomePage(this.api, this.services);
+      })
+      .on("/incidents/:id", (match) => {
+        this.page = new NoticePage("incidents", match!.data!.id, this.api);
+      })
+      .on("/maintenance/:id", (match) => {
+        this.page = new NoticePage("maintenance", match!.data!.id, this.api);
+      })
+      .on("*", () => {
+        this.router.navigate("/");
+      })
+      .hooks({
+        after: () => {
+          if (!initial) {
+            this.page.focus();
+          }
+          initial = false;
+        },
       })
       .resolve();
   }
@@ -89,16 +104,18 @@ export class AppRoot extends Component {
           .logoAlt="${this.site.name.default}"
           .websiteUrl="${this.site.websiteUrl}"
           .links="${this.site.links.header}"
-          .home="${this.home}"
+          .home="${this.page instanceof HomePage}"
         ></app-header>
-        <main
-          class="flex-1 ring-white/5 ring-inset sm:rounded-2xl sm:bg-neutral-900 sm:ring-1"
-        >
-          ${new StatusOverview(this.site.mainStatus, this.services)}
-          <div class="p-6 pt-0! md:p-8">
-            ${this.page}
-          </div>
-        </main>
+        <div class="flex-1">
+          <main
+            class="ring-white/5 ring-inset sm:rounded-2xl sm:bg-neutral-900 sm:ring-1"
+          >
+            ${new StatusOverview(this.site.mainStatus, this.services)}
+            <div class="p-4 pt-0! sm:p-6 md:p-8">
+              ${this.page}
+            </div>
+          </main>
+        </div>
         <app-footer></app-footer>
       </div>
     `;
@@ -114,6 +131,7 @@ export class AppRoot extends Component {
               return new ServiceGroup(
                 c.id,
                 c.name.default,
+                c.description.default === "" ? null : c.description.default,
                 await Promise.all(
                   c.children
                     .sort(Services.sort)
@@ -133,6 +151,7 @@ export class AppRoot extends Component {
     return new Service(
       c.id,
       c.name.default,
+      c.description.default === "" ? null : c.description.default,
       Service.parseStatus(c.status),
       await Promise.all(
         c.metrics.map(async (m) => {
@@ -140,6 +159,7 @@ export class AppRoot extends Component {
           return new Metric(m.id, m.name.default, m.suffix, data);
         }),
       ),
+      c.startDate === null ? null : new Date(c.startDate),
       c.showUptime,
     );
   }
