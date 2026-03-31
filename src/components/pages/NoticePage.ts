@@ -166,7 +166,9 @@ export class NoticePage extends Page {
         <dt class="font-medium text-neutral-400">Affected services</dt>
         <dd>
           <ul class="flex gap-1 flex-wrap">
-            ${this.notice.components.map((c) =>
+            ${this.notice.components.sort((a, b) => a.order - b.order).map((
+              c,
+            ) =>
               html`
                 <li class="text-sm text-neutral-300 rounded-full bg-white/10 px-2 py-0.5">
                   ${c.name.default}
