@@ -31,7 +31,7 @@ export class HomePage extends Page {
     this.#services = services;
   }
 
-  public getRows(id: string): [ServiceRow] | [ServiceRow, ServiceGroupRow] {
+  public getRows(id: string): [service?: ServiceRow] | [ServiceRow, ServiceGroupRow] {
     for (const row of this.rows) {
       if (row.service.id === id) {
         return [row];
@@ -45,7 +45,7 @@ export class HomePage extends Page {
       }
     }
 
-    throw new Error(`Could not find row for service ${id}`);
+    return [];
   }
 
   public override async connectedCallback() {
