@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.19",
-    "@tailwindcss/vite": "^4.2.2",
+    "@tailwindcss/vite": "^4.2.4",
     "@types/markdown-it": "^14.1.2",
     "rollup-plugin-minify-template-literals": "^1.1.7",
     "typescript": "^6.0.3",
