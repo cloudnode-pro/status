@@ -28,7 +28,7 @@
     "vite": "^8.3.6"
   },
   "dependencies": {
-    "@vercel/speed-insights": "^2.0.0",
+    "@vercel/speed-insights": "^2.1.0",
     "lit": "^3.3.3",
     "markdown-it": "^15.0.3",
     "navigo": "^8.11.1"
